@@ -117,12 +117,24 @@ class ManagerController < ApplicationController
       redirect_to manager_manager_modify_password_path(@user[:name])
     end
   end
-
+  def password_repeat
+    if @password==@user_password_confirm
+      @user[:password]= @password
+      @user[:password_confirm]=@user_password_confirm
+      @user.save
+      redirect_to "/manager/manage_user"
+    else
+      flash[:information]="两次密码输入不一致,请重新输入"
+      redirect_to manager_manager_modify_password_path(@user[:name])
+    end
+  end
 
   private
     def user_params
       params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
     end
-
+    def admin_params
+      params.require(:admin).permit(:password, :password_confirm)
+    end
 
 end
