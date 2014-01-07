@@ -25,7 +25,17 @@ class UserController < ApplicationController
       render '/user/register'
     end
   end
-
+  def judge_password_repeat
+    if @user_password==@password_confirm
+      @user=User.new(user_params)
+      @user.save
+      session[:current_user_account]=params[:user][:name]
+      redirect_to '/user/welcome'
+    else
+      flash[:notice] = "两次密码输入不一致,请重新输入"
+      render '/user/register'
+    end
+  end
 
   def user_params
     params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
