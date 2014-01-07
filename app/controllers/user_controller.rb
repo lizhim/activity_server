@@ -36,6 +36,23 @@ class UserController < ApplicationController
       render '/user/register'
     end
   end
+  def welcome
+    @current_user=session[:current_user_account]
+  end
+  def name_exist_or_not
+    @user_name = params[:user][:name]
+    user_name = User.find_by(name:@user_name)
+    if !user_name.nil?
+      session[:current_user_account]=params[:user][:name]
+      @user_question=user_name[:question]
+      redirect_to user_answer_question_of_password_path(@user_question)
+    else
+      flash[:error] = "账号不存在"
+      render '/user/input_name'
+    end
+  end
+
+
 
   def user_params
     params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
