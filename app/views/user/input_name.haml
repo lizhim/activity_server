@@ -1,0 +1,19 @@
+%h2活动通
+%div(class="modal hide fade in" style="display:block;Background-color:#F5F5F5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" )
+  %div(class="modal-header")
+    %h4(style="text-align:left;")重置密码
+  %div(class="modal-body" style="text-align:center;")
+    %div(style="text-align:right;")
+      %p
+        =link_to "用户登录", '/manager/login'
+    =form_for (:user), :method=>'post', :url=>'/user/name_exist_or_not'  do |f|
+      %div(class="input-prepend")
+        =f.label :"账号",:class=>"add-on",:style=>"height:30px;"
+        =f.text_field :name ,:id=>"input",:type=>"text",:style=>"height:30px",:placeholder=>"请输入账号名"
+        %br
+        %br
+        -if flash[:error]
+          %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
+            =flash[:error]
+        %br
+        =f.submit "下一步"
