@@ -68,6 +68,32 @@ class UserController < ApplicationController
       render '/user/answer_question_of_password'
     end
   end
+  def password_confirm
+
+  end
+  def password_empty_or_not
+    password = params[:user][:password]
+    password_confirm = params[:user][:password_confirm]
+    if password!=''&&password_confirm!=''
+      return password_consistent(password,password_confirm)
+    else
+      flash[:error] = "密码不能为空"
+      render '/user/password_confirm'
+    end
+  end
+  def password_consistent(password,password_confirm)
+    if password==password_confirm
+      @current_user = session[:current_user_account]
+      @user=User.find_by(name:@current_user)
+      @user[:password]=password
+      @user[:password_confirm]=password_confirm
+      @user.save
+      redirect_to '/user/welcome'
+    else
+      flash[:error] = "两次密码答案不一致，请重新输入"
+      render '/user/password_confirm'
+    end
+  end
 
   def user_params
     params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
