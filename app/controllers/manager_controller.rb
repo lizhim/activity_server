@@ -94,9 +94,35 @@ class ManagerController < ApplicationController
     redirect_to manager_manage_user_path
   end
 
+  def manager_modify_password
+    @user_name= params[:format]
+    @manager=session[:current_manager_account]
+  end
+  def judge_login
+    user_name=params[:format]
+    if session[:current_manager_account]!=nil
+      return modify_password(user_name)
+    else
+      redirect_to '/manager/login'
+    end
+  end
+  def modify_password(user_name)
+    @user = User.find_by(name:user_name)
+    @password = params[:admin][:password]
+    @user_password_confirm = params[:admin][:password_confirm]
+    if @password != '' && @user_password_confirm !=''
+      return password_repeat
+    else
+      flash[:information]="密码不能为空"
+      redirect_to manager_manager_modify_password_path(@user[:name])
+    end
+  end
+
+
   private
     def user_params
       params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
     end
+
 
 end
