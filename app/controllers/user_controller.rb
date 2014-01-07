@@ -52,6 +52,22 @@ class UserController < ApplicationController
     end
   end
 
+  def answer_question_of_password
+    @user_question= params[:format]
+  end
+
+  def answer_right_or_not
+    @user_question = params[:format]
+    user_answer = params[:user][:answer]
+    user = User.find_by(question:@user_question)
+    @user_answer = user[:answer]
+    if @user_answer == user_answer
+      redirect_to '/user/password_confirm'
+    else
+      flash[:error] = "忘记密码答案错误"
+      render '/user/answer_question_of_password'
+    end
+  end
 
   def user_params
     params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
