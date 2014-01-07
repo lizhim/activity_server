@@ -63,6 +63,18 @@ class ManagerController < ApplicationController
     end
   end
 
+  def judge_user_account
+    manager_account = session[:current_manager_account]
+    user = User.find_by(name:@user_name)
+    if @user_name!=manager_account && user.nil?
+      return judge_password_repeat
+    else
+      flash[:notice] = "该账号已注册"
+      @manager=session[:current_manager_account]
+      render '/manager/add_user'
+    end
+  end
+
   def destroy
     name= params[:format]
     @user = User.find_by(name:name)
