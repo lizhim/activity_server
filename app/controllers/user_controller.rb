@@ -16,6 +16,15 @@ class UserController < ApplicationController
     end
   end
 
+  def judge_user_account
+    user = User.find_by(name:@user_name)
+    if user.nil?
+      return judge_password_repeat
+    else
+      flash[:notice] = "该账号已注册"
+      render '/user/register'
+    end
+  end
 
 
   def user_params
