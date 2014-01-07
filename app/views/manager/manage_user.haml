@@ -9,3 +9,20 @@
       用户管理
       .btn
         =link_to "+添加用户", '/manager/add_user'
+    %tr
+      %th编号
+      %th用户名
+      %th操作
+    -i=0
+    -@user.each do |user|
+      %tr
+        -i=i+1
+        %td
+          =i
+        %td
+          =user.name
+        %td
+          =link_to "删除", manager_destroy_path(user.name),method: :delete, data: { confirm: '您确定要删除'+user.name+'?' }
+          =link_to "修改密码", manager_manager_modify_password_path(user.name)
+    %div(style="position:absolute;top:80%;right:10%")
+      = will_paginate @user,:previous_label=> '上一页',:next_label=> '下一页'

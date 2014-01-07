@@ -1,0 +1,40 @@
+%h2活动通
+%p(class="header-right")
+  你好，
+  =@manager
+  =link_to "退出", '/manager/quit'
+%div(style="height:40px;width:1000px;Background-color:#F5F5F5")
+  %h5(style="padding-top:10px;")
+    %span
+      =link_to "首页", '/manager/quit'
+    %span /添加用户
+%div(class="modal hide fade in" style="display:block;Background-color:#F5F5F5;position:absolute;top:20%" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" )
+  %br
+  %div(class="modal-body" style="text-align:center;")
+    =form_for (:user), :method=>'post', :url=>'/manager/whether_login' do |f|
+      %div(class="input-prepend")
+        =f.label :"账号",:class=>"add-on",:style=>"height:30px;width:100px"
+        =f.text_field :name ,:type=>"input",:style=>"height:30px;width:300px",:placeholder=>"账号"
+        %br
+        %br
+        =f.label :"请设置密码",:class=>"add-on",:style=>"height:30px;width:100px"
+        =f.text_field :password ,:type=>"password",:style=>"height:30px;width:300px",:placeholder=>"请输入密码"
+        %br
+        %br
+        =f.label :"请确认密码",:class=>"add-on",:style=>"height:30px;width:100px"
+        =f.text_field :password_confirm,:type=>"password",:style=>"height:30px;width:300px",:placeholder=>"请再次输入"
+        %br
+        %br
+        =f.label :"忘记密码问题",:class=>"add-on",:style=>"height:30px;width:100px"
+        =f.text_field :question ,:type=>"text",:style=>"height:30px;width:300px",:placeholder=>"密码问题"
+        %br
+        %br
+        =f.label :"忘记密码答案",:class=>"add-on",:style=>"height:30px;width:100px"
+        =f.text_field :answer ,:type=>"text",:style=>"height:30px;width:300px",:placeholder=>"密码答案"
+        %br
+        %br
+        -if flash[:notice]
+          %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
+            =flash[:notice]
+        %br
+        =f.submit "确认添加"

@@ -22,11 +22,38 @@ class ManagerController < ApplicationController
       redirect_to '/user/welcome'
     end
   end
-
+  def manage_user
+    @manager = session[:current_manager_account]
+    @user = User.paginate(page: params[:page],per_page: 10).where(:admin=>nil)
+  end
   def logout
     session[:current_manager_account]= nil
     redirect_to '/manager/login'
     flash[:error] = nil
+  end
+  def add_user
+    @manager = session[:current_manager_account]
+  end
+  def quit
+    if session[:current_manager_account]==nil
+      redirect_to '/manager/login'
+    else
+      redirect_to '/manager/manage_user'
+    end
+  end
+  def whether_login
+    if session[:current_manager_account]!=nil
+      return information_complete
+    else
+      redirect_to '/manager/login'
+    end
+  end
+
+  def destroy
+    name= params[:format]
+    @user = User.find_by(name:name)
+    @user.destroy
+    redirect_to manager_manage_user_path
   end
 
   private
