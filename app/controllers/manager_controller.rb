@@ -75,6 +75,18 @@ class ManagerController < ApplicationController
     end
   end
 
+  def judge_password_repeat
+    if @user_password==@password_confirm
+      @user=User.new(user_params)
+      @user.save
+      redirect_to '/manager/manage_user'
+    else
+      flash[:notice] = "两次密码输入不一致,请重新输入"
+      @manager=session[:current_manager_account]
+      render '/manager/add_user'
+    end
+  end
+
   def destroy
     name= params[:format]
     @user = User.find_by(name:name)
