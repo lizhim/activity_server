@@ -1,0 +1,22 @@
+%header(id="demo")
+  %h1(class="header")报名({{number}}人)
+  %div(class="header-right" ng-model="selection")
+    %a(class="btn btn-primary")
+      %div(ng-switch="selection")
+        %div(ng-switch-when="un_start" ng-tap="begin()")开始
+        %div(ng-switch-when="starting" ng-tap="end()")结束
+        %div(ng-switch-when="ending" ng-disabled=true)结束
+  %div(class="header-left")
+    %a(class="btn icon-angle" ng-tap="go_to_activity_list_page()")返回
+
+#wrapper
+  %div(class="scrollable")
+    %ul(class="survey-list")
+      %li(style="height:50px" ng-repeat="sign_up_name in sign_up_names") {{sign_up_name.name}} {{sign_up_name.phone}}
+
+%footer
+  %ul(class="footer-nav footer-nav-2tabs")
+    %li
+      %a(class='active')报名
+    %li
+      %a(ng-tap="go_to_bid_list_page()")竞价

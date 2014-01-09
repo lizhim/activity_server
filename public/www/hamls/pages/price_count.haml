@@ -1,0 +1,15 @@
+%header
+  %h1(class="header")价格统计
+  %div(class="header-left")
+    %a(class="btn icon-angle" ng-tap="go_to_bid_list_page()")返回
+  %div(class="header-right")
+    %a(class="btn btn-primary" ng-tap="go_to_bid_result_page()")列表
+#wrapper
+  %div(class="scrollable")
+    %ul(class="survey-list")
+      %li(style="height:50px" ng-repeat="price_count in price_counts | orderBy:'price':reverse")
+        %span(style="float:left") ￥{{price_count.price}}
+        %span(style="float:right") {{price_count.number}}人
+%footer
+  %ul(class="footer-nav")
+    %p(align="center")竞价结果:{{bid_winner.name}} ￥{{bid_winner.price}} {{bid_winner.phone}}

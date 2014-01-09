@@ -1,0 +1,28 @@
+%header
+  %h1(class="header")竞价结果({{bid_result_number}}人)
+  %div(class="header-left")
+    %a(class="btn icon-angle" ng-tap="go_to_bid_list_page()")返回
+  %div(class="header-right")
+    %a(class="btn btn-primary" ng-tap="go_to_price_count_page()")统计
+#wrapper
+  %div(class="scrollable")
+    %ul(class="survey-list")
+      %li(style="height:50px" ng-repeat="bid_result in bid_results | orderBy:'price':reverse")
+        {{$index + 1}}: {{bid_result.name}} {{bid_result.phone}} ￥{{bid_result.price}}
+%footer
+  %ul(class="footer-nav")
+    %p(align="center" ng-show="checked_footer")竞价结果:{{bid_winner.name}} ￥{{bid_winner.price}} {{bid_winner.phone}}
+
+%div(ng-switch="pop_out_modal")
+  %div(ng-switch-when="true" class="modal hide fade in" style="display:block;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" )
+    %div(class="modal-header")
+      %button(type="button" class="close" style="float:right" ng-tap="close_modal()")×
+      %h4(style="text-align:center;")竞价结果
+    %div(class="modal-body" style="text-align:center;")
+      %div(ng-switch="bid_success")
+        %div(ng-switch-when="true")
+          %h5 {{bid_winner.name}} ￥{{bid_winner.price}}
+          %h5 {{bid_winner.phone}}
+          %h5竞价成功!
+        %div(ng-switch-when="false")
+          %h5竞价失败!

@@ -1,0 +1,18 @@
+%header
+  %h1(class="header")竞价列表
+  %div(class="header-left")
+    %a(class="btn icon-angle" ng-tap="go_to_sign_up_page()")返回
+  %div(class="header-right")
+    %a(class="btn btn-primary" ng-tap="go_to_bid_sign_up_page()" ng-disabled="check_bid_is_start")开始
+
+#wrapper
+  %div(class="scrollable")
+    %ul(class="survey-list")
+      %li(style="height:50px;" class="{{bid_list.bid_status}}" ng-tap="go_to_bid_sign_up_information('{{bid_list.bid_name}}')" ng-repeat="bid_list in bid_lists") {{bid_list.bid_name}}
+
+%footer
+  %ul(class="footer-nav footer-nav-2tabs")
+    %li
+      %a(ng-tap="go_to_sign_up_page()")报名
+    %li
+      %a(class="active")竞价

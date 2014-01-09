@@ -1,0 +1,18 @@
+%div(class="title" align="center")
+  %h2活动通
+%div(class="modal hide fade in" style="display:block;Background-color:#F5F5F5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" )
+  %div(class="modal-header")
+  %div(class="modal-body" style="text-align:center;")
+    %div(class="input-prepend")
+      %input(style="height:30px;width:300px" ng-model="user_name" type="text" placeholder="请输入账号" )
+      %br
+      %br
+      %input(style="height:30px;width:300px" ng-model='user_password' type="password" placeholder="请输入密码" )
+      %br
+      %br
+      %div(class="label-warning" style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red' ng-show="error")
+        用户名或密码错误
+      %br
+      %button(class="btn btn-primary" style="float:left:100%" ng-tap="login()")
+        登录
+

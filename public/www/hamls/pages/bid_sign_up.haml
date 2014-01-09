@@ -1,0 +1,21 @@
+%header
+  %h1(class="header")竞价报名({{bid_number}}人)
+  %div(class="header-left")
+    %a(class="btn icon-angle" ng-tap="go_to_bid_list_page()")返回
+  %div(class="header-right")
+    %a(class="btn btn-primary")
+      %div(ng-switch="selection")
+        %div(ng-switch-when="bid_un_start" ng-tap="bid_begin()")开始
+        %div(ng-switch-when="bid_starting" ng-tap="bid_end()")结束
+        %div(ng-switch-when="bid_ending" ng-disabled=true)结束
+#wrapper
+  %div(id="one" class="scrollable")
+    %ul(class="survey-list")
+      %li(style="height:50px" ng-repeat="bid_sign_up_people in bid_sign_up_peoples")
+        {{$index+1}}: {{bid_sign_up_people.name}} {{bid_sign_up_people.phone}}
+%footer
+  %ul(class="footer-nav footer-nav-2tabs")
+    %li
+      %a(ng-tap="go_to_bid_list_page()")竞价列表
+    %li
+      %a(ng-tap="go_to_bid_result_page()")竞价结果

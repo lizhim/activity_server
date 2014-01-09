@@ -135,6 +135,6 @@ class ManagerController < ApplicationController
     end
     def admin_params
       params.require(:admin).permit(:password, :password_confirm)
-    end
+  end
 
 end
