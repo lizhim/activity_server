@@ -14,6 +14,6 @@ function CreatActivityController($scope, $navigate) {
         }
     }
     $scope.go_to_activity_list_page = function () {
-        $navigate.go("/");
+        $navigate.go("/activity_list");
     }
 }

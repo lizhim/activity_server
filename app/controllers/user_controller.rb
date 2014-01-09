@@ -1,7 +1,10 @@
 class UserController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :login
+
   def register
 
   end
+
   def information_complete
     @user_name= params[:user][:name]
     @user_password = params[:user][:password]
@@ -17,7 +20,7 @@ class UserController < ApplicationController
   end
 
   def judge_user_account
-    user = User.find_by(name:@user_name)
+    user = User.find_by(name: @user_name)
     if user.nil?
       return judge_password_repeat
     else
@@ -25,6 +28,7 @@ class UserController < ApplicationController
       render '/user/register'
     end
   end
+
   def judge_password_repeat
     if @user_password==@password_confirm
       @user=User.new(user_params)
@@ -36,12 +40,14 @@ class UserController < ApplicationController
       render '/user/register'
     end
   end
+
   def welcome
     @current_user=session[:current_user_account]
   end
+
   def name_exist_or_not
     @user_name = params[:user][:name]
-    user_name = User.find_by(name:@user_name)
+    user_name = User.find_by(name: @user_name)
     if !user_name.nil?
       session[:current_user_account]=params[:user][:name]
       @user_question=user_name[:question]
@@ -59,7 +65,7 @@ class UserController < ApplicationController
   def answer_right_or_not
     @user_question = params[:format]
     user_answer = params[:user][:answer]
-    user = User.find_by(question:@user_question)
+    user = User.find_by(question: @user_question)
     @user_answer = user[:answer]
     if @user_answer == user_answer
       redirect_to '/user/password_confirm'
@@ -68,23 +74,26 @@ class UserController < ApplicationController
       render '/user/answer_question_of_password'
     end
   end
+
   def password_confirm
 
   end
+
   def password_empty_or_not
     password = params[:user][:password]
     password_confirm = params[:user][:password_confirm]
     if password!=''&&password_confirm!=''
-      return password_consistent(password,password_confirm)
+      return password_consistent(password, password_confirm)
     else
       flash[:error] = "密码不能为空"
       render '/user/password_confirm'
     end
   end
-  def password_consistent(password,password_confirm)
+
+  def password_consistent(password, password_confirm)
     if password==password_confirm
       @current_user = session[:current_user_account]
-      @user=User.find_by(name:@current_user)
+      @user=User.find_by(name: @current_user)
       @user[:password]=password
       @user[:password_confirm]=password_confirm
       @user.save
@@ -92,6 +101,30 @@ class UserController < ApplicationController
     else
       flash[:error] = "两次密码答案不一致，请重新输入"
       render '/user/password_confirm'
+    end
+  end
+
+  def login
+    password = params[:password]
+    user=User.find_by(name: params[:name])
+    if user!=nil
+      return password_right_or_not(user,password)
+    else
+      respond_to do |format|
+        format.json { render :json => 'false' }
+      end
+    end
+  end
+
+  def password_right_or_not(user,password)
+    if user[:password]==password
+      respond_to do |format|
+        format.json { render :json => 'true' }
+      end
+    else
+      respond_to do |format|
+        format.json { render :json => 'false' }
+      end
     end
   end
 

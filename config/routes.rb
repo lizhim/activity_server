@@ -19,7 +19,7 @@ ActivityServer::Application.routes.draw do
   post 'user/answer_right_or_not'=>'user#answer_right_or_not'
   get 'user/password_confirm'=>'user#password_confirm'
   post 'user/password_empty_or_not'=>'user#password_empty_or_not'
-
+  post 'user/login'=>'user#login'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

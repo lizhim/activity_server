@@ -19,6 +19,9 @@ Activity.get_now_activity_name = function () {
 Activity.save_activity_name_to_now_activity_name = function (activity_name) {
     return localStorage.setItem("now_activity_name", activity_name);
 }
+Activity.save_current_user = function(user_name){
+    localStorage.setItem("user_name",user_name)
+}
 Activity.get_activity = function () {
     return JSON.parse(localStorage.getItem("activity"));
 }

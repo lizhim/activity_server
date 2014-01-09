@@ -1,6 +1,6 @@
 function SignUpController($scope, $navigate) {
     $scope.go_to_activity_list_page = function () {
-        $navigate.go("/");
+        $navigate.go("/activity_list");
     }
     $scope.go_to_bid_list_page = function () {
         var activity_status_temp = Activity.get_activity_status();
