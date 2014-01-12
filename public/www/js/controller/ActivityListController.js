@@ -7,7 +7,7 @@ function ActivityListController($scope, $navigate) {
         $navigate.go("/sign_up");
         Activity.save_activity_name_to_now_activity_name(activity_name);
     }
-    $scope.activities = Activity.get_activity();
+    $scope.activities = Activity.get_activity_of_user();
     $scope.check_creat_activity_button = Activity.activity_status_judge_button($scope.activities) == true ||
         Activity.activity_and_bid_status_judge_button($scope.activities) == true;
 

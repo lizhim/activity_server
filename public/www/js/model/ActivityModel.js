@@ -1,4 +1,5 @@
 function Activity(activity_name) {
+    this.name = localStorage.getItem("user_name")
     this.activity_name = activity_name;
     this.activity_status = "un_start";
 }
@@ -19,11 +20,23 @@ Activity.get_now_activity_name = function () {
 Activity.save_activity_name_to_now_activity_name = function (activity_name) {
     return localStorage.setItem("now_activity_name", activity_name);
 }
-Activity.save_current_user = function(user_name){
-    localStorage.setItem("user_name",user_name)
+Activity.save_current_user = function (user_name) {
+    localStorage.setItem("user_name", user_name)
 }
-Activity.get_activity = function () {
-    return JSON.parse(localStorage.getItem("activity"));
+Activity.get_current_user = function () {
+    return localStorage.getItem("user_name")
+}
+Activity.get_activity_of_user = function () {
+    var activity = JSON.parse(localStorage.getItem("activity"));
+    var user_name = Activity.get_current_user()
+    var activity_of_user = _.filter(activity, function (list) {
+        if (list.name == user_name) {
+            return list
+        }
+        return
+    })
+    localStorage.setItem("activity_of_user", JSON.stringify(activity_of_user))
+    return JSON.parse(localStorage.getItem("activity_of_user"))
 }
 Activity.get_running_activity_name = function () {
     return localStorage.getItem("running_activity_name");
@@ -89,7 +102,7 @@ Activity.get_activity_status = function () {
     }
 }
 Activity.check_other_sign_up_status = function () {
-    var activity_array = JSON.parse(localStorage.getItem("activity"));
+    var activity_array = JSON.parse(localStorage.getItem("activity_of_user"));
     return _.some(activity_array, function (activity) {
         return activity.activity_status == "starting"
     })
