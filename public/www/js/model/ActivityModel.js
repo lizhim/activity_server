@@ -30,7 +30,7 @@ Activity.get_activity_of_user = function () {
     var activity = JSON.parse(localStorage.getItem("activity"));
     var user_name = Activity.get_current_user()
     var activity_of_user = _.filter(activity, function (list) {
-        if (list.name == user_name) {
+        if (list.user_name == user_name) {
             return list
         }
         return
@@ -40,8 +40,19 @@ Activity.get_activity_of_user = function () {
 Activity.get_running_activity_name = function () {
     return localStorage.getItem("running_activity_name");
 }
-Activity.get_sign_up_person_information = function () {
-    return JSON.parse(localStorage.getItem(localStorage.getItem("now_activity_name"))) || [];
+Activity.get_sign_ups = function () {
+    return JSON.parse(localStorage.getItem("sign_ups")) || [];
+
+}
+Activity.get_sign_up_person_information=function() {
+    var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
+    var user_name = Activity.get_current_user()
+    return _.filter(sign_ups, function (list) {
+        if (list.user_name==user_name&&list.activity_name==Activity.get_now_activity_name()){
+            return list
+        }
+        return
+    })
 }
 Activity.change_activity_status_starting = function () {
     var activity_status_temp = Activity.get_activity_status();

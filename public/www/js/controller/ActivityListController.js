@@ -1,4 +1,4 @@
-function ActivityListController($scope, $navigate) {
+function ActivityListController($scope, $navigate, $http) {
     $scope.go_to_creat_activity_page = function () {
         if ($scope.check_creat_activity_button == false || $scope.check_creat_activity_button == undefined)
             $navigate.go("/creat_activity");
@@ -19,6 +19,10 @@ function ActivityListController($scope, $navigate) {
         if ((activity_name == running_activity_name && BidList.get_bid_status() == "bid_starting")) {
             return 'Background-color:yellow';
         }
+    }
+    $scope.activity_synchronous = function () {
+//        var activity_of_user=Activity.get_activity_of_user()
+//        var activity_information = {activity_name:,enrollment:activity_of_user.length,bidder:}
     }
 }
 

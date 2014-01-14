@@ -1,6 +1,8 @@
 function Message(name, phone) {
     this.name = name;
     this.phone = phone;
+    this.user_name = localStorage.getItem("user_name")
+    this.activity_name = localStorage.getItem("now_activity_name")
 }
 Message.prototype.blank = function () {
     this.name = (this.name).trim();
@@ -14,7 +16,7 @@ Message.bm = function (json_message) {
     Message.judge_activity_start_or_not(json_message);
 }
 Message.check_sign_up_phone_repeat = function (json_message) {
-    var information_array = Activity.get_sign_up_person_information();
+    var information_array = Activity.get_sign_ups();
     var information_array_temp = new Message(json_message.messages[0].message.substring(2), json_message.messages[0].phone);
     return _.some(information_array, function (information) {
         return information.phone == information_array_temp.phone
@@ -50,20 +52,20 @@ Message.judge_has_signed = function (json_message) {
 }
 Message.save_bm_information = function (json_message) {
     var activity_status_temp = Activity.get_activity_status();
-    var information_array = Activity.get_sign_up_person_information();
+    var information_array = Activity.get_sign_ups();
     var information_array_temp = new Message(json_message.messages[0].message.substring(2), json_message.messages[0].phone);
     if (information_array_temp.name != "" && Message.check_sign_up_phone_repeat(json_message) == false &&
         localStorage.getItem("now_activity_name") != undefined && localStorage.getItem("now_activity_name")
         != "" && activity_status_temp == "starting") {
         information_array.unshift(information_array_temp);
-        localStorage.setItem(localStorage.getItem("now_activity_name"), JSON.stringify(information_array));
+        localStorage.setItem("sign_ups", JSON.stringify(information_array));
         go_to_act_detail_page_by_name_of('demo');
 //                native_accessor.send_sms(information_array_temp.phone, "恭喜!报名成功");
         console.log("恭喜!报名成功")
     }
 }
 Message.jj = function (json_message) {
-    var sign_up_activity_name = Activity.get_sign_up_person_information();
+    var sign_up_activity_name = Activity.get_sign_ups();
     var check_is_sign_up = _.some(sign_up_activity_name, function (bid) {
         return bid.phone == json_message.messages[0].phone
     });
@@ -137,7 +139,7 @@ Message.save_jj_message = function (json_message) {
     }
 }
 Message.save_bid_information_array_temp = function (json_message) {
-    var sign_up_activity_name = Activity.get_sign_up_person_information();
+    var sign_up_activity_name = Activity.get_sign_ups();
     var find_bid_information = new Bid(_.find(sign_up_activity_name,function (bid) {
         return bid.phone == json_message.messages[0].phone
     }).name, json_message.messages[0].phone, json_message.messages[0].message.substring(2));

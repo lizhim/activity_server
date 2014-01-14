@@ -35,6 +35,6 @@ function SignUpController($scope, $navigate) {
     $scope.date_refresh = function () {
         $scope.number = Activity.number_total()
         $scope.sign_up_names = Activity.get_sign_up_person_information()
-    }
+}
     $scope.date_refresh();
 }
