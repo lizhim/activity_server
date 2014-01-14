@@ -42,7 +42,6 @@ Activity.get_running_activity_name = function () {
 }
 Activity.get_sign_ups = function () {
     return JSON.parse(localStorage.getItem("sign_ups")) || [];
-
 }
 Activity.get_sign_up_person_information=function() {
     var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
@@ -80,7 +79,7 @@ Activity.activity_name_is_null = function (activity_name) {
     return activity_name == "" || activity_name == null || activity_name == undefined
 }
 Activity.rename = function (activity_name) {
-    var activity_array = JSON.parse(localStorage.getItem("activity"));
+    var activity_array = Activity.get_activity_of_user();
     var repeat_status = _.some(activity_array, function (activity) {
         return activity.activity_name == activity_name
     })

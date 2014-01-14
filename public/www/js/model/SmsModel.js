@@ -16,7 +16,7 @@ Message.bm = function (json_message) {
     Message.judge_activity_start_or_not(json_message);
 }
 Message.check_sign_up_phone_repeat = function (json_message) {
-    var information_array = Activity.get_sign_ups();
+    var information_array = Activity.get_sign_up_person_information();
     var information_array_temp = new Message(json_message.messages[0].message.substring(2), json_message.messages[0].phone);
     return _.some(information_array, function (information) {
         return information.phone == information_array_temp.phone
