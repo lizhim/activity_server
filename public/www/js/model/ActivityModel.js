@@ -35,8 +35,7 @@ Activity.get_activity_of_user = function () {
         }
         return
     })
-    localStorage.setItem("activity_of_user", JSON.stringify(activity_of_user))
-    return JSON.parse(localStorage.getItem("activity_of_user"))
+    return activity_of_user
 }
 Activity.get_running_activity_name = function () {
     return localStorage.getItem("running_activity_name");

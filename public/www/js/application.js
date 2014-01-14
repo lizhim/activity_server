@@ -37,7 +37,6 @@ myModule.directive('ngTap', function () {
 
 var native_access;
 $(document).ready(function () {
-    localStorage.getItem("activity_of_user") == null ? localStorage.setItem("activity_of_user", JSON.stringify([])) : true;
     localStorage.getItem("activity") == null ? localStorage.setItem("activity", JSON.stringify([])) : true;
     localStorage.getItem("price_count_array") == null ? localStorage.setItem("price_count_array", JSON.stringify([]))
         : true;
