@@ -1,5 +1,5 @@
 function Activity(activity_name) {
-    this.name = localStorage.getItem("user_name")
+    this.user_name = localStorage.getItem("user_name")
     this.activity_name = activity_name;
     this.activity_status = "un_start";
 }

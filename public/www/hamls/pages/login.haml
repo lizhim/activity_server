@@ -7,7 +7,7 @@
       %fieldset(class="form-wrapper")
         %input(type="text" class="input-full" ng-model="user_name" style="height:30px" placeholder="请输入账号")
         %input(type="password" class="input-full" ng-model="user_password" style="height:30px" placeholder="请输入密码")
-        %div(class="label-warning" style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red' ng-show="notice")
+        %div(class="label-warning" align="center" style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red' ng-show="notice")
           用户名或密码错误
         %br
         %button(class="btn btn-block" style="float:left:100%" ng-tap="login()")
