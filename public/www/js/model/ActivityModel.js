@@ -111,7 +111,7 @@ Activity.get_activity_status = function () {
     }
 }
 Activity.check_other_sign_up_status = function () {
-    var activity_array = JSON.parse(localStorage.getItem("activity_of_user"));
+    var activity_array = Activity.get_activity_of_user();
     return _.some(activity_array, function (activity) {
         return activity.activity_status == "starting"
     })
