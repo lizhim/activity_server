@@ -39,6 +39,7 @@ var native_access;
 $(document).ready(function () {
     localStorage.getItem("activity") == null ? localStorage.setItem("activity", JSON.stringify([])) : true;
     localStorage.getItem("sign_ups") == null ? localStorage.setItem("sign_ups", JSON.stringify([])) : true;
+    localStorage.getItem("bids") == null ? localStorage.setItem("bids", JSON.stringify([])) : true;
     localStorage.getItem("price_count_array") == null ? localStorage.setItem("price_count_array", JSON.stringify([]))
         : true;
 

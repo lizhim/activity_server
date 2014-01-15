@@ -9,7 +9,7 @@ function BidListController($scope, $navigate) {
             BidList.save_bid_list();
             $navigate.go("/bid_sign_up");
             var bid_array = BidList.get_bid_information();
-            localStorage.setItem("biding_name", bid_array[0].bid_name);
+            localStorage.setItem("biding_name", bid_array[0]["bid_name"]);
         }
     }
     $scope.go_to_bid_sign_up_information = function (bid_name) {

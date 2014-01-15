@@ -43,11 +43,11 @@ Activity.get_running_activity_name = function () {
 Activity.get_sign_ups = function () {
     return JSON.parse(localStorage.getItem("sign_ups")) || [];
 }
-Activity.get_sign_up_person_information=function() {
+Activity.get_sign_up_person_information = function () {
     var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
     var user_name = Activity.get_current_user()
     return _.filter(sign_ups, function (list) {
-        if (list.user_name==user_name&&list.activity_name==Activity.get_now_activity_name()){
+        if (list.user_name == user_name && list.activity_name == Activity.get_now_activity_name()) {
             return list
         }
         return
@@ -117,7 +117,10 @@ Activity.check_other_sign_up_status = function () {
     })
 }
 Activity.number_total = function () {
-    var information_array = JSON.parse(localStorage.getItem(localStorage.getItem("now_activity_name"))) || [];
+    var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
+    var information_array = _.filter(sign_ups, function (list) {
+        return list.user_name== Activity.get_current_user()&&list.activity_name==Activity.get_now_activity_name()
+    });
     return information_array.length;
 }
 Activity.change_status = function (activity_status_temp, status) {

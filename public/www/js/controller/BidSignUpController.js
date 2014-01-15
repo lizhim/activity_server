@@ -13,10 +13,10 @@ function BidSignUpController($scope, $navigate) {
     $scope.selection = bid_status_temp;
 
     $scope.bid_begin = function () {
-        var bid_status_temp = BidList.get_bid_status();
+        var bid_status_temp = $scope.selection;
         if (BidList.check_other_bid_status() == false) {
             $scope.selection = "bid_starting";
-            BidList.change_status(bid_status_temp, "bid_starting")
+//            BidList.change_status(bid_status_temp, "bid_starting")
             BidList.change_bid_status_starting ();
         }
         else if (BidList.check_other_bid_status() == true) {
