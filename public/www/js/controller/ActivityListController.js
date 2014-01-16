@@ -20,11 +20,11 @@ function ActivityListController($scope, $navigate, $http) {
             return 'Background-color:yellow';
         }
     }
-    $scope.activity_synchronous = function () {
-//        var activity_of_user=Activity.get_activity_of_user()
-//        var activity_information = {activity_name:,enrollment:activity_of_user.length,bidder:}
+    $scope.data_synchronous = function () {
+        var synchronous_data = Activity.get_synchronous_data();
     }
 }
+
 
 
 
