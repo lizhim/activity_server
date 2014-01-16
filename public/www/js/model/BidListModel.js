@@ -25,7 +25,11 @@ BidList.save_bid_name_to_biding_name = function (bid_name) {
     return  localStorage.setItem("biding_name", bid_name);
 }
 BidList.get_bid_person_information = function () {
-    return JSON.parse(localStorage.getItem(localStorage.getItem("now_activity_name") + localStorage.getItem("biding_name"))) || [];
+    var bids = JSON.parse(localStorage.getItem("bids"))
+    var bid_person_information=_.find(bids, function (bid) {
+        return bid.bid_name==BidList.get_biding_name()&&bid.user_name==Activity.get_current_user()&&bid.activity_name==Activity.get_now_activity_name()
+    })
+    return bid_person_information.biddings
 }
 BidList.get_bid_information = function () {
     var bids = JSON.parse(localStorage.getItem("bids"));
@@ -80,6 +84,6 @@ BidList.bid_number_total = function () {
     var bid_information_array = BidList.get_bid_person_information();
     return bid_information_array.length;
 }
-//BidList.change_status = function (bid_status_temp, status) {
-//    return bid_status_temp = status;
-//}
+BidList.change_status = function (bid_status_temp, status) {
+    return bid_status_temp = status;
+}

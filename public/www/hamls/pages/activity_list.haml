@@ -7,5 +7,5 @@
 #wrapper
   %div(class="scrollable")
     %ul(class="survey-list")
-      %li(style="height:50px;{{change_yellow_name(activity.activity_name)}}" class="{{activity.activity_status}}" ng-tap="go_to_sign_up_information('{{activity.activity_name}}')" ng-repeat="activity in activities") {{activity.activity_name}}
-
+      %li(style="height:50px;{{change_yellow_name(activity.activity_name)}}" class="{{activity.activity_status}}"
+      ng-tap="go_to_sign_up_information('{{activity.activity_name}}')" ng-repeat="activity in activities") {{activity.activity_name}}

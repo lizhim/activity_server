@@ -19,7 +19,11 @@ function BidResultController($scope, $navigate, $timeout) {
         $scope.checked_footer = true;
     }
 
-    $scope.bid_results = BidList.get_bid_person_information ();
+    $scope.bid_results = Bid.get_increase_bid_price ();
     $scope.bid_success = !Bid.judge_bid_success() == false;
     $scope.bid_winner = Bid.get_winner();
+    $scope.date_refresh = function () {
+        $scope.bid_number = BidList.bid_number_total()
+    }
+    $scope.date_refresh();
 }

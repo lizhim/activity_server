@@ -55,8 +55,7 @@ Message.save_bm_information = function (json_message) {
     var information_array = Activity.get_sign_ups();
     var information_array_temp = new Message(json_message.messages[0].message.substring(2), json_message.messages[0].phone);
     if (information_array_temp.name != "" && Message.check_sign_up_phone_repeat(json_message) == false &&
-        localStorage.getItem("now_activity_name") != undefined && localStorage.getItem("now_activity_name")
-        != "" && activity_status_temp == "starting") {
+         activity_status_temp == "starting") {
         information_array.unshift(information_array_temp);
         localStorage.setItem("sign_ups", JSON.stringify(information_array));
         go_to_act_detail_page_by_name_of('demo');
@@ -65,18 +64,22 @@ Message.save_bm_information = function (json_message) {
     }
 }
 Message.jj = function (json_message) {
-    var sign_up_activity_name = Activity.get_sign_ups();
-    var check_is_sign_up = _.some(sign_up_activity_name, function (bid) {
-        return bid.phone == json_message.messages[0].phone
-    });
-    if (check_is_sign_up == false) {
+    if (Message.check_phone_sign_up_or_not(json_message) == false) {
 //        native_accessor.send_sms(bid_information_array_temp.phone, "对不起,您没有报名此次活动!");
         console.log("对不起,您没有报名此次活动!")
     }
     else {
-        var bid_information_array_temp = Message.save_bid_information_array_temp(json_message);
         Message.judge_bid_start_or_not(json_message);
     }
+}
+Message.check_phone_sign_up_or_not=function(json_message){
+    var sign_ups = Activity.get_sign_ups();
+    var sign_up_activity_name = _.filter(sign_ups, function (sign) {
+        return sign.user_name == Activity.get_current_user() && sign.activity_name == Activity.get_now_activity_name()
+    })
+    return _.some(sign_up_activity_name, function (bid) {
+        return bid.phone == json_message.messages[0].phone
+    });
 }
 Message.check_bid_phone_repeat = function (json_message) {
     var bid_information_array = BidList.get_bid_person_information();
@@ -88,9 +91,7 @@ Message.check_bid_phone_repeat = function (json_message) {
 Message.judge_bid_start_or_not = function (json_message) {
     var bid_information_array_temp = Message.save_bid_information_array_temp(json_message);
     var bid_status_temp = BidList.get_bid_status();
-    if (localStorage.getItem("now_activity_name") + localStorage.getItem("biding_name") == undefined
-        || localStorage.getItem("now_activity_name") + localStorage.getItem("biding_name") == "" ||
-        bid_status_temp == "bid_un_start") {
+    if (bid_status_temp == "bid_un_start") {
 //        native_accessor.send_sms(bid_information_array_temp.phone, "对不起,活动尚未开始!");
         console.log("对不起,活动尚未开始!")
     }
@@ -130,17 +131,30 @@ Message.save_jj_message = function (json_message) {
     if (localStorage.getItem("biding_name") != "" && Message.check_bid_phone_repeat(json_message) == false &&
         bid_status_temp == "bid_starting" && !(json_message.messages[0].message.substring(2) == "" ||
         isNaN(json_message.messages[0].message.substring(2)))) {
-        bid_information_array.push(bid_information_array_temp);
-        localStorage.setItem(localStorage.getItem("now_activity_name") +
-            localStorage.getItem("biding_name"), JSON.stringify(bid_information_array))
+        Message.save_bid_information(json_message)
         go_to_act_detail_page_by_name_of('one')
 //        native_accessor.send_sms(bid_information_array_temp.phone, "恭喜,您已出价成功!");
         console.log("恭喜,您已出价成功!")
     }
 }
+Message.save_bid_information=function(json_message){
+//    var bid_information_array = BidList.get_bid_person_information();
+    var bid_information_array_temp = Message.save_bid_information_array_temp(json_message);
+    var bids=JSON.parse (localStorage.getItem("bids"))
+    var new_bids=_.map(bids,function(list){
+        if(list.user_name==Activity.get_current_user()&&list.activity_name==Activity.get_now_activity_name()&&list.bid_name==localStorage.getItem("biding_name")) {
+            list.biddings.push (bid_information_array_temp)
+        }
+        return list
+    })
+    localStorage.setItem("bids",JSON.stringify(new_bids))
+}
 Message.save_bid_information_array_temp = function (json_message) {
     var sign_up_activity_name = Activity.get_sign_ups();
-    var find_bid_information = new Bid(_.find(sign_up_activity_name,function (bid) {
+    var bid_person = _.filter(sign_up_activity_name, function (sign) {
+        return sign.user_name==Activity.get_current_user()&&sign.activity_name==Activity.get_now_activity_name()
+    })
+    var find_bid_information = new Bid(_.find(bid_person,function (bid) {
         return bid.phone == json_message.messages[0].phone
     }).name, json_message.messages[0].phone, json_message.messages[0].message.substring(2));
     return  find_bid_information;

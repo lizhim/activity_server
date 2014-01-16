@@ -8,4 +8,8 @@ function PriceCountController($scope, $navigate) {
     $scope.bid_winner = Bid.get_winner();
 
     $scope.price_counts=Bid.get_group_price()
+    $scope.date_refresh = function () {
+        $scope.bid_number = BidList.bid_number_total()
+    }
+    $scope.date_refresh();
 }
