@@ -16,7 +16,6 @@ function BidSignUpController($scope, $navigate) {
         var bid_status_temp = $scope.selection;
         if (BidList.check_other_bid_status() == false) {
             $scope.selection = "bid_starting";
-//            BidList.change_status(bid_status_temp, "bid_starting")
             BidList.change_bid_status_starting ();
         }
         else if (BidList.check_other_bid_status() == true) {

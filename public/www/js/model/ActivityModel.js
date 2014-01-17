@@ -4,7 +4,7 @@ function Activity(activity_name) {
     this.activity_status = "un_start";
 }
 Activity.prototype.save_activity_name_and_status = function () {
-    var activity_array = JSON.parse(localStorage.getItem("activity"));
+    var activity_array = JSON.parse(localStorage.getItem("activity"))||[];
     activity_array.unshift(this);
     localStorage.setItem("activity", JSON.stringify(activity_array));
 }
@@ -118,35 +118,84 @@ Activity.check_other_sign_up_status = function () {
 Activity.number_total = function () {
     var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
     var information_array = _.filter(sign_ups, function (list) {
-        return list.user_name== Activity.get_current_user()&&list.activity_name==Activity.get_now_activity_name()
+        return list.user_name == Activity.get_current_user() && list.activity_name == Activity.get_now_activity_name()
     });
     return information_array.length;
 }
 Activity.change_status = function (activity_status_temp, status) {
     return activity_status_temp = status;
 }
-Activity.get_synchronous_data = function(){
-    console.log(Activity.get_sign_up_information())
-    return {"user_name":Activity.get_current_user(),"activity_information":Activity.get_activity_information(),
-        "sign_up_list":Activity.get_sign_up_information()}
-}
-Activity.get_activity_information=function(){
-    var activity_information=[];
+Activity.get_activity_information = function () {
+    var activity_information = [];
     var activity = Activity.get_activity_of_user();
     _.map(activity, function (list) {
-        var activity_name=list.activity_name
-        return activity_information.push({"activity_name":list.activity_name,"enrollment":Activity.enrollment(activity_name),
-            "bidder":BidList.get_bidder(activity_name)})
+        var activity_name = list.activity_name
+        activity_information.push({"activity_name": list.activity_name, "enrollment": Activity.enrollment(activity_name),
+            "bidder": BidList.get_bidder(activity_name)})
     })
     return activity_information
 }
-Activity.enrollment=function(activity_name) {
+Activity.enrollment = function (activity_name) {
     var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
     var information_array = _.filter(sign_ups, function (list) {
-        return list.user_name== Activity.get_current_user()&&list.activity_name==activity_name
+        return list.user_name == Activity.get_current_user() && list.activity_name == activity_name
     });
     return information_array.length;
 }
-Activity.get_sign_up_information=function(){
+Activity.get_sign_up_information = function () {
+    var sign_up_information = [];
+    var sign_ups = Activity.get_name_and_phone_of_activity();
+    _.each(sign_ups, function (list) {
+        if ( list.user_name == Activity.get_current_user()) {
+            sign_up_information.push({"activity_name": list.activity_name, "name": list.name, 'phone': list.phone})
+        }
+    })
+    return sign_up_information
+}
+Activity.get_name_and_phone_of_activity = function () {
+    var sign_ups = JSON.parse(localStorage.getItem("sign_ups"));
+    var name_and_phone_information = _.filter(sign_ups, function (list) {
+        return list.user_name == Activity.get_current_user()
+    })
+    return name_and_phone_information
+}
+Activity.get_bid_number = function () {
+    var bid_list = [];
+    var bid_array = BidList.get_bid_array();
+    _.each(bid_array, function (bid) {
+        if(bid.user_name==Activity.get_current_user()){
+            var bid_name = bid.bid_name;
+            var activity_name=bid.activity_name;
+            bid_list.push({"activity_name": bid.activity_name, "bid_name": bid.bid_name,
+                "bid_number": Activity.number(activity_name,bid_name),"sign_up":Activity.enrollment(activity_name)})
+        }
+    })
+    return bid_list
+}
+Activity.number = function (activity_name,bid_name) {
+    var bid_array = BidList.get_bid_array();
+    var bid = _.find(bid_array, function (list) {
+        if(list.bid_name== bid_name&&list.activity_name==activity_name){
+            return list.biddings
+        }
+    })
+    return bid["biddings"].length
+}
+Activity.get_bid_detail=function() {
+    var bid_detail=[];
+    var bid_array = BidList.get_bid_array();
+    _.each(bid_array,function(bid){
+        _.map(bid.biddings,function(num){
+            bid_detail.push({"activity_name":bid.activity_name,"bid_name":bid.bid_name,"name":num.name,
+                "price":num.price,"phone":num.phone})
+        })
+    })
+    return bid_detail
+}
 
+Activity.get_synchronous_data = function () {
+    console.log(Activity.get_bid_detail())
+    return {"user_name": Activity.get_current_user(), "activity_information": Activity.get_activity_information(),
+        "sign_up_list": Activity.get_sign_up_information(), "bid_list": Activity.get_bid_number(),
+        "bid_detail": Activity.get_bid_detail()}
 }
