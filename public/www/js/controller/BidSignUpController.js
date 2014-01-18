@@ -30,6 +30,7 @@ function BidSignUpController($scope, $navigate) {
             BidList.change_status(bid_status_temp, "bid_ending");
             Activity.save_null_to_running_activity_name()
             $navigate.go("/bid_result");
+            Bid.save_winner()
             BidList.change_bid_status_ending ();
         }
     }

@@ -130,7 +130,7 @@ Activity.get_activity_information = function () {
     var activity = Activity.get_activity_of_user();
     _.map(activity, function (list) {
         var activity_name = list.activity_name
-        activity_information.push({"activity_name": list.activity_name, "enrollment": Activity.enrollment(activity_name),
+        activity_information.push({"user_name": Activity.get_current_user(), "activity_name": list.activity_name, "enrollment": Activity.enrollment(activity_name),
             "bidder": BidList.get_bidder(activity_name)})
     })
     return activity_information
@@ -147,7 +147,7 @@ Activity.get_sign_up_information = function () {
     var sign_ups = Activity.get_name_and_phone_of_activity();
     _.each(sign_ups, function (list) {
         if ( list.user_name == Activity.get_current_user()) {
-            sign_up_information.push({"activity_name": list.activity_name, "name": list.name, 'phone': list.phone})
+            sign_up_information.push({"user_name": Activity.get_current_user(),"activity_name": list.activity_name, "name": list.name, 'phone': list.phone})
         }
     })
     return sign_up_information
@@ -166,7 +166,7 @@ Activity.get_bid_number = function () {
         if(bid.user_name==Activity.get_current_user()){
             var bid_name = bid.bid_name;
             var activity_name=bid.activity_name;
-            bid_list.push({"activity_name": bid.activity_name, "bid_name": bid.bid_name,
+            bid_list.push({"user_name": Activity.get_current_user(),"activity_name": bid.activity_name, "bid_name": bid.bid_name,
                 "bid_number": Activity.number(activity_name,bid_name),"sign_up":Activity.enrollment(activity_name)})
         }
     })
@@ -186,16 +186,39 @@ Activity.get_bid_detail=function() {
     var bid_array = BidList.get_bid_array();
     _.each(bid_array,function(bid){
         _.map(bid.biddings,function(num){
-            bid_detail.push({"activity_name":bid.activity_name,"bid_name":bid.bid_name,"name":num.name,
+            bid_detail.push({"user_name": Activity.get_current_user(),"activity_name":bid.activity_name,"bid_name":bid.bid_name,"name":num.name,
                 "price":num.price,"phone":num.phone})
         })
     })
     return bid_detail
 }
+Activity.price_count=function(){
+   var bid_array = BidList.get_bid_array();
+   var a= _.map(bid_array,function(num){
+        var bid_name = num.bid_name;
+        var activity_name=num.activity_name;
+        var bid_people_information_array = Bid.get_increase_bid_price_(activity_name,bid_name);
+        var price_count_infos = _.groupBy(bid_people_information_array, function (num) {
+            return Number(num.price)
+        })
+        var price_count=[];
+        _.map(price_count_infos, function (value, key) {
+            price_count.push({"price": key, "number": value.length})
+        })
+        return _.map(price_count,function(price){
+            price.user_name= Activity.get_current_user()
+            price.activity_name= activity_name
+            price.bid_name= bid_name
+          return price
+        })
+   })
+   return _.flatten(a)
+}
 
 Activity.get_synchronous_data = function () {
-    console.log(Activity.get_bid_detail())
-    return {"user_name": Activity.get_current_user(), "activity_information": Activity.get_activity_information(),
+    return {"activity_information": Activity.get_activity_information(),
         "sign_up_list": Activity.get_sign_up_information(), "bid_list": Activity.get_bid_number(),
-        "bid_detail": Activity.get_bid_detail()}
+        "bid_detail": Activity.get_bid_detail(),"bid_count":Activity.price_count(),
+        "bid_winner":Bid.winner()
+    }
 }

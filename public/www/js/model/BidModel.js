@@ -16,10 +16,27 @@ Bid.get_increase_bid_price = function () {
     });
     return bid_people_information_array;
 }
+Bid.get_increase_bid_price_ = function (activity_name,bid_name) {
+    var bids = JSON.parse(localStorage.getItem("bids"))
+    var biddings = _.find(bids,function(bid){
+        return bid.user_name==Activity.get_current_user()&&bid.activity_name==activity_name&&bid.bid_name==bid_name
+    })
+    var bid_people_information_array = _.sortBy(biddings.biddings, function (list) {
+        return Number(list.price);
+    });
+    return bid_people_information_array;
+}
 Bid.get_winner = function () {
-    Bid.save_winner()
     var winner_array = JSON.parse(localStorage.getItem("bid_winner"));
-    return  winner_array
+    return _.find(winner_array,function(list){
+        return list.user_name == Activity.get_current_user() && list.activity_name ==Activity.get_now_activity_name()&&list.bid_name==localStorage.getItem("biding_name");
+    })
+}
+Bid.winner=function(){
+    var winner_array = JSON.parse(localStorage.getItem("bid_winner"));
+    return _.filter(winner_array,function(list){
+        return list.user_name == Activity.get_current_user();
+    })
 }
 Bid.judge_bid_success = function () {
     var group_by_price = Bid.get_group_price();
@@ -35,18 +52,23 @@ Bid.judge_bid_success = function () {
     return false
 }
 Bid.save_winner = function () {
+    var winner=JSON.parse(localStorage.getItem("bid_winner"))
     var bid_people_information_array = Bid.get_increase_bid_price();
     if (Bid.judge_bid_success() != false) {
         var bid_winner= _.find(bid_people_information_array, function (bid) {
-            return bid.price == Number(Bid.judge_bid_success ()  )
+            return bid.price == Number(Bid.judge_bid_success ())
         })
-        localStorage.setItem("bid_winner", JSON.stringify(bid_winner))
+        winner.push({"user_name":Activity.get_current_user(),"activity_name": Activity.get_now_activity_name(),
+            "bid_name":localStorage.getItem("biding_name"),"name":bid_winner.name,"phone":bid_winner.phone,"price":bid_winner.price})
+        localStorage.setItem("bid_winner", JSON.stringify(winner))
     }
-    Bid.save_null_to_winner();
+    Bid.save_null_to_winner(winner);
 }
-Bid.save_null_to_winner=function(){
+Bid.save_null_to_winner=function(winner){
     if (Bid.judge_bid_success() == false){
-        localStorage.setItem("bid_winner", JSON.stringify([]))
+        winner.push({"user_name":Activity.get_current_user(),"activity_name": Activity.get_now_activity_name(),
+            "bid_name":localStorage.getItem("biding_name"),"name":'',"phone":'',"price":''})
+        localStorage.setItem("bid_winner", JSON.stringify(winner))
     }
 }
 Bid.get_group_price = function () {

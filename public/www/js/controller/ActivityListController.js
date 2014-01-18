@@ -22,6 +22,7 @@ function ActivityListController($scope, $navigate, $http) {
     }
     $scope.data_synchronous = function () {
         var synchronous_data = Activity.get_synchronous_data();
+
     }
 }
 
