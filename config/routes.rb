@@ -20,7 +20,7 @@ ActivityServer::Application.routes.draw do
   get 'user/password_confirm'=>'user#password_confirm'
   post 'user/password_empty_or_not'=>'user#password_empty_or_not'
   post 'user/login'=>'user#login'
-
+  post '/session/synchronous_data'=>'session#synchronous_data'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

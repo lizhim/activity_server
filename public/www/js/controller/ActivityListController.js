@@ -22,7 +22,17 @@ function ActivityListController($scope, $navigate, $http) {
     }
     $scope.data_synchronous = function () {
         var synchronous_data = Activity.get_synchronous_data();
-
+        $http({method: "post",url:"/session/synchronous_data", data:synchronous_data,type:"json"})
+            .success(function(response){
+                if(response=="true"){
+                    alert("同步成功")
+                }
+                if(response=="false"){
+                    alert("同步失败,请重新同步")
+                }
+            })
+            .error(function(response){
+            })
     }
 }
 

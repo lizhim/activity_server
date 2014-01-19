@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_name: MyString
+  activity_name: MyString
+  enrollment: MyString
+  bidder: MyString
+
+two:
+  user_name: MyString
+  activity_name: MyString
+  enrollment: MyString
+  bidder: MyString

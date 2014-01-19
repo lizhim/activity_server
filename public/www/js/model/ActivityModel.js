@@ -216,9 +216,9 @@ Activity.price_count=function(){
 }
 
 Activity.get_synchronous_data = function () {
-    return {"activity_information": Activity.get_activity_information(),
+    return {"user_name":Activity.get_current_user(),"activity_information": Activity.get_activity_information(),
         "sign_up_list": Activity.get_sign_up_information(), "bid_list": Activity.get_bid_number(),
-        "bid_detail": Activity.get_bid_detail(),"bid_count":Activity.price_count(),
-        "bid_winner":Bid.winner()
+        "bid_winner":Bid.winner(),"bid_detail": Activity.get_bid_detail(),
+        "bid_count":Activity.price_count()
     }
 }
