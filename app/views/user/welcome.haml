@@ -7,14 +7,14 @@
   %table(class="table table-condensed")
     %div(style="height:30px;Background-color:#F5F5F5")
       活动信息
-    %tr
+    %tr(style="text-align:center")
       %th编号
       %th活动名称
       %th报名人数
       %th竞价次数
     -i=0
     -@activities.each do |activity|
-      %tr
+      %tr(style="text-align:center")
         -i=i+1
         %td(text-align="center" valign="middle")
           =i

@@ -12,4 +12,68 @@
     %span
       \/
       =@current_bid
+%div(style="height:100px;width:1000px;Background-color:#F5F5F5;text-align:center")
+  %h5(style="padding-top:10px;")
+  -if @bid_winner.nil?
+    %h3 活动正在进行中...
+  -if !@bid_winner.nil?&&@bid_winner["name"]==''
+    %h3 本次竞价无人胜出
+  -if !@bid_winner.nil?&&@bid_winner["name"]!=''
+    %h4
+      ='获胜者:'+@bid_winner["name"]
+      %br
+      ='出价:'+@bid_winner["price"]+'元'
+      %br
+      ='手机号:'+@bid_winner["phone"]
+
+%div(class="container")
+  %ul(class="nav nav-tabs" )
+    %li(class="active" style="text-align:center;width:50%")
+      %a(href="#bid_detail"data-toggle="tab" ) 出价列表
+    %li(style="text-align:center;width:50%" )
+      %a(href="#bid_count"data-toggle="tab" ) 价格统计
+  %div(class="tab-content container")
+    %div(class="tab-pane fade in active table-hover table-bordered" id='bid_detail')
+      %table(style='width:100%')
+        %thead
+          %tr(style="text-align:center;width:25%")
+            %th编号
+            %th姓名
+            %th价格/元
+            %th手机号
+        %tbody
+          -i=0
+          -@bid_details.each do |bid_detail|
+            %tr(style="text-align:center;width:25%")
+              -i=i+1
+              %td
+                =i
+              %td
+                =bid_detail.name
+              %td
+                =bid_detail.price
+              %td
+                =bid_detail.phone
+        .right-padding
+          = will_paginate @bid_details,{:previous_label =>'上一页',:next_label => '下一页'}
+    %div(class="tab-pane  table-hover table-bordered" id='bid_count')
+      %table(style='width:100%')
+        %thead
+          %tr(style="text-align:center;width:25%")
+            %th编号
+            %th价格/元
+            %th人数
+        %tbody
+          -i=0
+          -@price_counts.each do |price_count|
+            %tr(style="text-align:center;width:25%")
+              -i=i+1
+              %td
+                =i
+              %td
+                =price_count.price
+              %td
+                =price_count.number
+    .right-padding
+      = will_paginate @price_counts,{:previous_label =>'上一页',:next_label => '下一页'}
 

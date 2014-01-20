@@ -145,12 +145,10 @@ class UserController < ApplicationController
     @current_user=session[:current_user_account]
     @current_activity=params[:activity_name]
     @current_bid=params[:bid_name]
-    @bid_lists=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity,
+    @bid_details=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity,
                                                                       :bid_name=>@current_bid)
-    #@bid_winner=Winner.where(:user_name=>@current_user, :activity_name=>@current_activity, :bid_name=>@current_bid)
-    #p '=================================='
-    #p @bid_winner
-    #p '++++++++++++++++++++++++++++++++++'
+    @bid_winner=Winner.find_by(:user_name=>@current_user, :activity_name=>@current_activity, :bid_name=>@current_bid)
+    @price_counts=PriceCount.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity)
   end
 
   def user_params
