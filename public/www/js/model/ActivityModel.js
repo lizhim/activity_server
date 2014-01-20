@@ -130,7 +130,7 @@ Activity.get_activity_information = function () {
     var activity = Activity.get_activity_of_user();
     _.map(activity, function (list) {
         var activity_name = list.activity_name
-        activity_information.push({"user_name": Activity.get_current_user(), "activity_name": list.activity_name, "enrollment": Activity.enrollment(activity_name),
+        activity_information.unshift({"user_name": Activity.get_current_user(), "activity_name": list.activity_name, "enrollment": Activity.enrollment(activity_name),
             "bidder": BidList.get_bidder(activity_name)})
     })
     return activity_information

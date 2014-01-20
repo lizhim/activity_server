@@ -16,4 +16,9 @@ function CreatActivityController($scope, $navigate) {
     $scope.go_to_activity_list_page = function () {
         $navigate.go("/activity_list");
     }
+    $scope.list_change=function(){
+        if($scope.activity_name!=null){
+            $scope.disabled = false;
+        }
+    }
 }

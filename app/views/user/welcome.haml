@@ -3,3 +3,26 @@
   你好，
   =@current_user
   =link_to '退出', '/manager/login'
+%div(style="height:500px;width:800px;position:absolute;right:20%;top:15%")
+  %table(class="table table-condensed")
+    %div(style="height:30px;Background-color:#F5F5F5")
+      活动信息
+    %tr
+      %th编号
+      %th活动名称
+      %th报名人数
+      %th竞价次数
+    -i=0
+    -@activities.each do |activity|
+      %tr
+        -i=i+1
+        %td(text-align="center" valign="middle")
+          =i
+        %td(text-align="center" valign="middle")
+          =link_to activity.activity_name,  user_bid_list_path(activity.activity_name)
+        %td(text-align="center" valign="middle")
+          =link_to activity.enrollment, user_sign_up_path(activity.activity_name)
+        %td(text-align="center" valign="middle")
+          =link_to activity.bidder, user_bid_list_path(activity.activity_name)
+    %div(style="position:absolute;top:80%;right:10%")
+      = will_paginate @activities,:previous_label=> '上一页',:next_label=> '下一页'

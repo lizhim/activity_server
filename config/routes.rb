@@ -21,6 +21,9 @@ ActivityServer::Application.routes.draw do
   post 'user/password_empty_or_not'=>'user#password_empty_or_not'
   post 'user/login'=>'user#login'
   post '/session/synchronous_data'=>'session#synchronous_data'
+  get '/user/bid_list'=>'user#bid_list'
+  get '/user/sign_up'=>'user#sign_up'
+  get '/user/bid_detail'=>'user#bid_detail'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

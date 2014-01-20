@@ -3,52 +3,45 @@ class SessionController < ApplicationController
 
   def synchronous_data
     if params[:activity_information]!=nil
-      params[:activity_information].each do |t|
-        if Activity.find_by(user_name:t[:user_name],activity_name:t[:activity_name])
-        else
-          Activity.create(t)
-        end
-      end
+      Activity.delete_all(:user_name=>params[:user_name])
     end
+    params[:activity_information].each do |t|
+      Activity.create(t)
+    end
+
     if params[:sign_up_list]!=nil
-      params[:sign_up_list].each do |t|
-        if SignUp.find_by(user_name:t[:user_name],activity_name:t[:activity_name],phone:t[:phone])
-        else
-          SignUp.create(t)
-        end
-      end
+      SignUp.delete_all(:user_name=>params[:user_name])
     end
+    params[:sign_up_list].each do |t|
+      SignUp.create(t)
+    end
+
     if params[:bid_list]!=nil
-      params[:bid_list].each do |t|
-        if Bid.find_by(user_name:t[:user_name],activity_name:t[:activity_name],bid_name:t[:bid_name])
-        else
-          Bid.create(t)
-        end
-      end
+      Bid.delete_all(:user_name=>params[:user_name])
     end
+    params[:bid_list].each do |t|
+      Bid.create(t)
+    end
+
     if params[:bid_winner]!=nil
-      params[:bid_winner].each do |t|
-        if Winner.find_by(user_name:t[:user_name],activity_name:t[:activity_name],bid_name:t[:bid_name])
-        else
-          Winner.create(t)
-        end
-      end
+      Winner.delete_all(:user_name=>params[:user_name])
     end
+    params[:bid_winner].each do |t|
+      Winner.create(t)
+    end
+
     if params[:bid_detail]!=nil
-      params[:bid_detail].each do |t|
-        if BidList.find_by(user_name:t[:user_name],activity_name:t[:activity_name],bid_name:t[:bid_name],phone:t[:phone])
-        else
-          BidList.create(t)
-        end
-      end
+      BidList.delete_all(:user_name=>params[:user_name])
     end
+    params[:bid_detail].each do |t|
+      BidList.create(t)
+    end
+
     if params[:bid_count]!=nil
-      params[:bid_count].each do |t|
-        if PriceCount.find_by(user_name:t[:user_name],activity_name:t[:activity_name],bid_name:t[:bid_name],price:t[:price])
-        else
-          PriceCount.create(t)
-        end
-      end
+      PriceCount.delete_all(:user_name=>params[:user_name])
+    end
+    params[:bid_count].each do |t|
+      PriceCount.create(t)
     end
     respond_to do |format|
       if judge_synchronous_success=='true'

@@ -43,6 +43,7 @@ class UserController < ApplicationController
 
   def welcome
     @current_user=session[:current_user_account]
+    @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user)
   end
 
   def name_exist_or_not
@@ -126,6 +127,30 @@ class UserController < ApplicationController
         format.json { render :json => 'false' }
       end
     end
+  end
+
+  def bid_list
+    @current_user=session[:current_user_account]
+    @current_activity=params[:format]
+    @bids=Bid.paginate(page:params[:page],per_page: 10).where(:user_name=>@current_user,:activity_name=>@current_activity)
+  end
+
+  def sign_up
+    @current_user=session[:current_user_account]
+    @current_activity=params[:format]
+    @sign_ups=SignUp.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity)
+  end
+
+  def bid_detail
+    @current_user=session[:current_user_account]
+    @current_activity=params[:activity_name]
+    @current_bid=params[:bid_name]
+    @bid_lists=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity,
+                                                                      :bid_name=>@current_bid)
+    #@bid_winner=Winner.where(:user_name=>@current_user, :activity_name=>@current_activity, :bid_name=>@current_bid)
+    #p '=================================='
+    #p @bid_winner
+    #p '++++++++++++++++++++++++++++++++++'
   end
 
   def user_params

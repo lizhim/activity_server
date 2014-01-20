@@ -1,0 +1,36 @@
+%h2活动通
+%p(class="header-right")
+  你好，
+  =@current_user
+  =link_to "退出", '/manager/login'
+%div(style="height:40px;width:1000px;Background-color:#F5F5F5")
+  %h5(style="padding-top:10px;")
+    %span
+      =link_to "首页", '/user/welcome'
+    %span /竞价列表
+%div(style="height:500px;width:800px;position:absolute;right:20%;top:20%")
+  %table(class="table table-condensed")
+    %div(style="height:30px;Background-color:#F5F5F5")
+      %h4
+        竞价列表
+        %span(style="float:right")
+          报名列表
+    %tr
+      %th(class='text-center') 编号
+      %th名称
+      %th人数
+    -i=0
+    -@bids.each do |bid|
+      %tr
+        -i=i+1
+        %td
+          =i
+        %td
+          =link_to bid.bid_name, user_bid_detail_path(activity_name:bid.activity_name,bid_name:bid.bid_name)
+        %td
+          =bid.bid_number
+          \/
+          =bid.sign_up
+    %div(style="position:absolute;top:80%;right:10%")
+      = will_paginate @bids,:previous_label=> '上一页',:next_label=> '下一页'
+
