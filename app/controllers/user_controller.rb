@@ -42,8 +42,17 @@ class UserController < ApplicationController
   end
 
   def welcome
-    @current_user=session[:current_user_account]
-    @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user)
+    @manager=params[:current_user]
+    @user=params[:current_user_account]
+    @current_user_account=session[:current_user_account]
+    if @manager==nil&&@user==nil&&@current_user_account!=nil
+      @current_user=@current_user_account
+      @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user)
+    end
+    if @manager!=nil&&@user!=nil&&@current_user==nil
+      @current_user= @manager
+      @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@user)
+    end
   end
 
   def name_exist_or_not
@@ -130,25 +139,29 @@ class UserController < ApplicationController
   end
 
   def bid_list
-    @current_user=session[:current_user_account]
-    @current_activity=params[:format]
-    @bids=Bid.paginate(page:params[:page],per_page: 10).where(:user_name=>@current_user,:activity_name=>@current_activity)
+    @current_user_account=params[:current_user_account]
+    @current_user=params[:current_user]
+    @current_activity=params[:activity_name]
+    @bids=Bid.paginate(page:params[:page],per_page: 10).where(:user_name=>@current_user_account,:activity_name=>@current_activity)
   end
 
   def sign_up
-    @current_user=session[:current_user_account]
-    @current_activity=params[:format]
-    @sign_ups=SignUp.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity)
+    @current_user_account=params[:current_user_account]
+    @current_activity=params[:activity_name]
+    @current_user=params[:current_user]
+    @sign_ups=SignUp.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user_account,:activity_name=>@current_activity)
   end
 
   def bid_detail
-    @current_user=session[:current_user_account]
+    @current_user_account=params[:current_user_account]
     @current_activity=params[:activity_name]
+    @current_user=params[:current_user]
     @current_bid=params[:bid_name]
-    @bid_details=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity,
+    @bid_details=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user_account,:activity_name=>@current_activity,
                                                                       :bid_name=>@current_bid)
-    @bid_winner=Winner.find_by(:user_name=>@current_user, :activity_name=>@current_activity, :bid_name=>@current_bid)
-    @price_counts=PriceCount.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity)
+    @bid_winner=Winner.find_by(:user_name=>@current_user_account, :activity_name=>@current_activity, :bid_name=>@current_bid)
+    @price_counts=PriceCount.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user_account,
+                                                                            :activity_name=>@current_activity,:bid_name=>@current_bid)
   end
 
   def user_params

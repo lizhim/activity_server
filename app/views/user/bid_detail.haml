@@ -6,9 +6,9 @@
 %div(style="height:40px;width:1000px;Background-color:#F5F5F5")
   %h5(style="padding-top:10px;")
     %span
-      =link_to "首页", '/user/welcome'
+      =link_to "首页", user_welcome_path(current_user:@current_user,current_user_account:@current_user_account)
     %span
-      =link_to "/竞价列表", user_bid_list_path(@current_activity)
+      =link_to "/竞价列表", user_bid_list_path(activity_name:@current_activity,current_user:@current_user,current_user_account:@current_user_account)
     %span
       \/
       =@current_bid
@@ -25,7 +25,6 @@
       ='出价:'+@bid_winner["price"]+'元'
       %br
       ='手机号:'+@bid_winner["phone"]
-
 %div(class="container")
   %ul(class="nav nav-tabs" )
     %li(class="active" style="text-align:center;width:50%")
@@ -54,8 +53,8 @@
                 =bid_detail.price
               %td
                 =bid_detail.phone
-        .right-padding
-          = will_paginate @bid_details,{:previous_label =>'上一页',:next_label => '下一页'}
+      %div(style="position:absolute;top:80%;right:10%")
+        = will_paginate @bid_details,{:previous_label =>'上一页',:next_label => '下一页'}
     %div(class="tab-pane  table-hover table-bordered" id='bid_count')
       %table(style='width:100%')
         %thead
@@ -74,6 +73,6 @@
                 =price_count.price
               %td
                 =price_count.number
-    .right-padding
-      = will_paginate @price_counts,{:previous_label =>'上一页',:next_label => '下一页'}
+      %div(style="position:absolute;top:80%;right:10%")
+        = will_paginate @price_counts,{:previous_label =>'上一页',:next_label => '下一页'}
 

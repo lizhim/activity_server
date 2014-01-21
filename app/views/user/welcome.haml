@@ -19,10 +19,10 @@
         %td(text-align="center" valign="middle")
           =i
         %td(text-align="center" valign="middle")
-          =link_to activity.activity_name,  user_bid_list_path(activity.activity_name)
+          =link_to activity.activity_name,  user_bid_list_path(activity_name:activity.activity_name,current_user:@current_user,current_user_account:activity.user_name)
         %td(text-align="center" valign="middle")
-          =link_to activity.enrollment, user_sign_up_path(activity.activity_name)
+          =link_to activity.enrollment, user_sign_up_path(activity_name:activity.activity_name,current_user:@current_user,current_user_account:activity.user_name)
         %td(text-align="center" valign="middle")
-          =link_to activity.bidder, user_bid_list_path(activity.activity_name)
+          =link_to activity.bidder, user_bid_list_path(activity_name:activity.activity_name,current_user:@current_user,current_user_account:activity.user_name)
     %div(style="position:absolute;top:80%;right:10%")
       = will_paginate @activities,:previous_label=> '上一页',:next_label=> '下一页'
