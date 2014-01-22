@@ -2,7 +2,7 @@ class SessionController < ApplicationController
   skip_before_filter :verify_authenticity_token, :login
 
   def synchronous_data
-    Activity.transaction do
+
       if params[:activity_information]!=nil
         Activity.delete_all(:user_name=>params[:user_name])
       end
@@ -52,7 +52,7 @@ class SessionController < ApplicationController
         format.json { render :json => 'false' }
       end
     end
-  end
+
   def judge_synchronous_success
     if params[:activity_information].length==Activity.where(:user_name=>params[:user_name]).length&&
         params[:sign_up_list].length==SignUp.where(:user_name=>params[:user_name]).length&&
