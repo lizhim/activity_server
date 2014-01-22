@@ -56,3 +56,22 @@ function go_to_act_detail_page_by_name_of(act_name) {
         })
     }
 }
+function update(act_name) {
+    var page_jump_or_not = document.getElementById(act_name)
+    if (page_jump_or_not) {
+        var scope = angular.element(page_jump_or_not).scope();
+        scope.$apply(function () {
+            scope.synchronous();
+        })
+    }
+}
+function synchronous_data($http) {
+    var bid_data = Activity.get_synchronous_data();
+    $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
+        .success(function () {
+            console.log("15")
+        })
+        .error(function () {
+            console.log("16")
+        })
+}

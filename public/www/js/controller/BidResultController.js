@@ -27,5 +27,8 @@ function BidResultController($scope, $navigate, $timeout,$http) {
     }
     $scope.date_refresh();
 
-
+    $scope.synchronous = function(){
+        synchronous_data($http)
+    }
+    $scope.synchronous();
 }

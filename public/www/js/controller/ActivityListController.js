@@ -34,7 +34,10 @@ function ActivityListController($scope, $navigate, $http) {
             .error(function(response){
             })
     }
-
+    $scope.synchronous = function(){
+        synchronous_data($http)
+    }
+    $scope.synchronous();
 }
 
 

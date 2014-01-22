@@ -24,7 +24,10 @@ function BidListController($scope, $navigate,$http) {
         $navigate.go("/bid_sign_up");
         BidList.save_bid_name_to_biding_name(bid_name);
     }
-
+    $scope.synchronous = function(){
+        synchronous_data($http)
+    }
+    $scope.synchronous();
 }
 
 

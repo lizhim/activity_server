@@ -54,4 +54,8 @@ function SignUpController($scope, $navigate,$http) {
     }
     $scope.date_refresh();
 
+    $scope.synchronous = function(){
+        synchronous_data($http)
+    }
+    $scope.synchronous();
 }

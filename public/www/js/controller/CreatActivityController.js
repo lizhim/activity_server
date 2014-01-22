@@ -30,5 +30,8 @@ function CreatActivityController($scope, $navigate,$http) {
         }
     }
 
-
+    $scope.synchronous = function(){
+        synchronous_data($http)
+    }
+    $scope.synchronous();
 }
