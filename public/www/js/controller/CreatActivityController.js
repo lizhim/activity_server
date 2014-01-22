@@ -1,4 +1,4 @@
-function CreatActivityController($scope, $navigate) {
+function CreatActivityController($scope, $navigate,$http) {
     $scope.disabled = true;
     $scope.prompt_of_repeat = false;
     $scope.creat_activity = function () {
@@ -12,6 +12,7 @@ function CreatActivityController($scope, $navigate) {
             $navigate.go("/sign_up");
             Activity.save_activity_name_to_now_activity_name ($scope.activity_name)
         }
+
     }
     $scope.go_to_activity_list_page = function () {
         $navigate.go("/activity_list");
@@ -21,4 +22,6 @@ function CreatActivityController($scope, $navigate) {
             $scope.disabled = false;
         }
     }
+
+
 }

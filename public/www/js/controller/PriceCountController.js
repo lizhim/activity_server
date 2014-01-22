@@ -1,4 +1,4 @@
-function PriceCountController($scope, $navigate) {
+function PriceCountController($scope, $navigate,$http) {
     $scope.go_to_bid_list_page = function () {
         $navigate.go("/bid_list");
     }
@@ -12,4 +12,6 @@ function PriceCountController($scope, $navigate) {
         $scope.bid_number = BidList.bid_number_total()
     }
     $scope.date_refresh();
+
+
 }

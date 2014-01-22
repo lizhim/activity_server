@@ -34,6 +34,7 @@ function ActivityListController($scope, $navigate, $http) {
             .error(function(response){
             })
     }
+
 }
 
 

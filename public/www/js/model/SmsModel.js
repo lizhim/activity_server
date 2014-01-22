@@ -59,6 +59,7 @@ Message.save_bm_information = function (json_message) {
         information_array.unshift(information_array_temp);
         localStorage.setItem("sign_ups", JSON.stringify(information_array));
         go_to_act_detail_page_by_name_of('demo');
+        update('demo')
 //                native_accessor.send_sms(information_array_temp.phone, "恭喜!报名成功");
         console.log("恭喜!报名成功")
     }
@@ -133,6 +134,7 @@ Message.save_jj_message = function (json_message) {
         isNaN(json_message.messages[0].message.substring(2)))) {
         Message.save_bid_information(json_message)
         go_to_act_detail_page_by_name_of('one')
+        update('demo')
 //        native_accessor.send_sms(bid_information_array_temp.phone, "恭喜,您已出价成功!");
         console.log("恭喜,您已出价成功!")
     }

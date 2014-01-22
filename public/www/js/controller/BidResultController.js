@@ -1,4 +1,4 @@
-function BidResultController($scope, $navigate, $timeout) {
+function BidResultController($scope, $navigate, $timeout,$http) {
     $scope.go_to_bid_list_page = function () {
         $navigate.go("/bid_list")
     }
@@ -26,4 +26,6 @@ function BidResultController($scope, $navigate, $timeout) {
         $scope.bid_number = BidList.bid_number_total()
     }
     $scope.date_refresh();
+
+
 }

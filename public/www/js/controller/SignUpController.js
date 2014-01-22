@@ -1,4 +1,4 @@
-function SignUpController($scope, $navigate) {
+function SignUpController($scope, $navigate,$http) {
     $scope.go_to_activity_list_page = function () {
         $navigate.go("/activity_list");
     }
@@ -21,6 +21,14 @@ function SignUpController($scope, $navigate) {
         else if (Activity.check_other_sign_up_status() == true) {
             alert("已有活动正在报名！")
         }
+        var bid_data = Activity.get_synchronous_data();
+        $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
+            .success(function () {
+                console.log("7")
+            })
+            .error(function () {
+                console.log("8")
+            })
     }
     $scope.end = function () {
         var confirm = window.confirm("确定要结束本活动报名吗？");
@@ -31,10 +39,12 @@ function SignUpController($scope, $navigate) {
             $navigate.go("/bid_list");
             Activity.change_activity_status_ending();
         }
+
     }
     $scope.date_refresh = function () {
         $scope.number = Activity.number_total()
         $scope.sign_up_names = Activity.get_sign_up_person_information()
-}
+    }
     $scope.date_refresh();
+
 }

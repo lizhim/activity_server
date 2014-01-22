@@ -1,4 +1,4 @@
-function BidListController($scope, $navigate) {
+function BidListController($scope, $navigate,$http) {
     $scope.go_to_sign_up_page = function () {
         $navigate.go("/sign_up");
     }
@@ -11,11 +11,20 @@ function BidListController($scope, $navigate) {
             var bid_array = BidList.get_bid_information();
             localStorage.setItem("biding_name", bid_array[0]["bid_name"]);
         }
+        var bid_data = Activity.get_synchronous_data();
+        $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
+            .success(function () {
+                console.log("11")
+            })
+            .error(function () {
+                console.log("12")
+            })
     }
     $scope.go_to_bid_sign_up_information = function (bid_name) {
         $navigate.go("/bid_sign_up");
         BidList.save_bid_name_to_biding_name(bid_name);
     }
+
 }
 
 

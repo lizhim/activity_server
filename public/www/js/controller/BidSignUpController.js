@@ -1,4 +1,4 @@
-function BidSignUpController($scope, $navigate) {
+function BidSignUpController($scope, $navigate, $http) {
 
     $scope.go_to_bid_list_page = function () {
         $navigate.go("/bid_list");
@@ -16,11 +16,19 @@ function BidSignUpController($scope, $navigate) {
         var bid_status_temp = $scope.selection;
         if (BidList.check_other_bid_status() == false) {
             $scope.selection = "bid_starting";
-            BidList.change_bid_status_starting ();
+            BidList.change_bid_status_starting();
         }
         else if (BidList.check_other_bid_status() == true) {
             alert("已经有正在进行的竞价");
         }
+        var bid_data = Activity.get_synchronous_data();
+        $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
+            .success(function () {
+                console.log("1")
+            })
+            .error(function () {
+                console.log("2")
+            })
     }
     $scope.bid_end = function () {
         var bid_status_temp = BidList.get_bid_status();
@@ -31,15 +39,25 @@ function BidSignUpController($scope, $navigate) {
             Activity.save_null_to_running_activity_name()
             $navigate.go("/bid_result");
             Bid.save_winner()
-            BidList.change_bid_status_ending ();
+            BidList.change_bid_status_ending();
         }
+        var bid_data = Activity.get_synchronous_data();
+        $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
+            .success(function () {
+                console.log("3")
+            })
+            .error(function () {
+                console.log("4")
+            })
     }
 
     $scope.date_refresh = function () {
         $scope.bid_number = BidList.bid_number_total()
-        $scope.bid_sign_up_peoples = BidList.get_bid_person_information ()
+        $scope.bid_sign_up_peoples = BidList.get_bid_person_information()
     }
     $scope.date_refresh();
+
+
 }
 
 

@@ -1,0 +1,26 @@
+
+%div(style="height:200px;width:1000px;Background-color:#F5F5F5;text-align:center")
+  %h5(style="padding-top:60px;")
+  -if@bids!=''
+    %span(style="font-size:50px")
+      =@bids[:activity_name]
+    %h3
+      %span 参与人数：
+      %span
+        =@bids[:bid_number]
+        \/
+        =@bids[:sign_up]
+%div(class="container")
+  %div(class="tab-pane  table-hover table-bordered" id='bid_count')
+    %table(style='width:100%')
+      %thead
+        %tr(style="text-align:center;width:25%")
+          %th姓名
+          %th电话
+      %tbody
+        -@bid_peoples.each do |bid_people|
+          %tr(style="text-align:center;width:25%")
+            %td
+              =bid_people.name
+            %td
+              =bid_people.phone
