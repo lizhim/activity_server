@@ -42,16 +42,24 @@ class UserController < ApplicationController
   end
 
   def welcome
+    p '======================================'
+    p  params[:current_user]
+    p '+++++++++++++++++++++++++++++++++'
+    p params[:current_user_account]
+    p '###########################'
+    p  session[:current_user_account]
     @manager=params[:current_user]
     @user=params[:current_user_account]
     @current_user_account=session[:current_user_account]
     if @manager==nil&&@user==nil&&@current_user_account!=nil
       @current_user=@current_user_account
       @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user)
+      @bid=Bid.find_by(:user_name=>@current_user,:bid_status=>"bid_starting")
     end
-    if @manager!=nil&&@user!=nil&&@current_user==nil
+    if @manager!=nil&&@user!=nil&&@current_user_account==nil
       @current_user= @manager
       @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@user)
+      @bid=Bid.find_by(:user_name=>@user,:bid_status=>"bid_starting")
     end
   end
 
@@ -139,6 +147,9 @@ class UserController < ApplicationController
   end
 
   def bid_list
+    p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    p params[:current_user_account]
+    p params[:current_user]
     @current_user_account=params[:current_user_account]
     @current_user=params[:current_user]
     @current_activity=params[:activity_name]

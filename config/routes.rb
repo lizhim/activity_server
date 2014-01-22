@@ -25,6 +25,7 @@ ActivityServer::Application.routes.draw do
   get '/user/sign_up'=>'user#sign_up'
   get '/user/bid_detail'=>'user#bid_detail'
   get '/session/show'=>'session#show'
+  get '/session/jump'=>'session#jump'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

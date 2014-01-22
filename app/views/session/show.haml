@@ -1,7 +1,7 @@
 %meta(http-equiv="refresh" content="3")
-%div(style="height:200px;width:1000px;Background-color:#F5F5F5;text-align:center")
-  %h5(style="padding-top:60px;")
-  -if@bids!=''
+%div(class='container' style="height:200px;width:1000px;Background-color:#F5F5F5;text-align:center")
+  %h5(style="padding-top:20px;")
+  -if @bids!=nil
     %span(style="font-size:50px")
       =@bids[:activity_name]
     %h3
@@ -10,17 +10,30 @@
         =@bids[:bid_number]
         \/
         =@bids[:sign_up]
-%div(class="container")
-  %div(class="tab-pane  table-hover table-bordered" id='bid_count')
-    %table(style='width:100%')
-      %thead
-        %tr(style="text-align:center;width:25%")
-          %th姓名
-          %th电话
-      %tbody
-        -@bid_peoples.each do |bid_people|
-          %tr(style="text-align:center;width:25%")
-            %td
-              =bid_people.name
-            %td
-              =bid_people.phone
+  -if @bids==nil
+    %h1
+      =@activity
+    %h3 比赛结果
+    %h4
+      ="获胜者:"+@winner[:name]
+      %br
+      ="出价:"+@winner[:price]+"元"
+      %br
+      ="电话:"+@winner[:phone]
+-if @bids!=nil
+  %div(class="container")
+    %div(class="table-bordered")
+      %table(style='width:100%')
+        %thead
+          %tr(style="text-align:center;width:50%")
+            %th姓名
+            %th电话
+        %tbody
+          -@bid_peoples.each do |bid_people|
+            %tr(style="text-align:center;width:50%")
+              %td.col-md-4
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                =bid_people.name
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+              %td.col-md-4
+                =bid_people.phone

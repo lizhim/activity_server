@@ -186,7 +186,7 @@ Activity.get_bid_detail=function() {
     var bid_array = BidList.get_bid_array();
     _.each(bid_array,function(bid){
         _.map(bid.biddings,function(num){
-            bid_detail.push({"user_name": Activity.get_current_user(),"activity_name":bid.activity_name,
+            bid_detail.unshift({"user_name": Activity.get_current_user(),"activity_name":bid.activity_name,
                 "bid_name":bid.bid_name,"bid_status":bid.bid_status,"name":num.name,
                 "price":num.price,"phone":num.phone})
         })

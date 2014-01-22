@@ -8,8 +8,7 @@
     %div(style="height:30px;Background-color:#F5F5F5")
       活动信息
       %button(style="float:right")
-        -if @bid!=''
-          =link_to '同步展示', session_show_path(bid:@bid,current_user:@current_user)
+        =link_to '同步展示', session_jump_path(current_user:@current_user)
     %tr(style="text-align:center")
       %th编号
       %th活动名称
