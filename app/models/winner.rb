@@ -1,9 +1,9 @@
 class Winner < ActiveRecord::Base
-  def self.winner params
-    if params[:bid_winner]!=nil
-      Winner.delete_all(:user_name=>params[:user_name])
+  def self.winner winner,user_name
+    if winner!=nil
+      Winner.delete_all(:user_name=>user_name)
     end
-    params[:bid_winner].each do |t|
+    winner.each do |t|
       Winner.create(t)
     end
   end

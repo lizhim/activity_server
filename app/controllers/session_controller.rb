@@ -3,12 +3,12 @@ class SessionController < ApplicationController
 
   def synchronous_data
     Activity.transaction do
-      Activity.activity params
-      SignUp.sign_up params
-      Bid.bid params
-      Winner.winner params
-      BidList.bid_list params
-      PriceCount.price_count params
+      Activity.activity params[:activity_information],params[:user_name]
+      SignUp.sign_up params[:sign_up_list],params[:user_name]
+      Bid.bid params[:bid_list],params[:user_name]
+      Winner.winner params[:bid_winner],params[:user_name]
+      BidList.bid_list params[:bid_detail],params[:user_name]
+      PriceCount.price_count params[:bid_count],params[:user_name]
     end
     respond_to do |format|
       if judge_synchronous_success=='true'

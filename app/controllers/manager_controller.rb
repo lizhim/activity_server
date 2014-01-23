@@ -1,6 +1,7 @@
 class ManagerController < ApplicationController
   def login
     session[:current_user_account]=nil
+    flash[:error] = nil
   end
 
   def judge_manager
@@ -26,18 +27,12 @@ class ManagerController < ApplicationController
   end
 
   def manage_user
-    @manager = session[:current_manager_account]
+    @current_user = session[:current_manager_account]
     @user = User.paginate(page: params[:page],per_page: 10).where(:admin=>nil)
   end
 
-  def logout
-    session[:current_manager_account]= nil
-    redirect_to '/manager/login'
-    flash[:error] = nil
-  end
-
   def add_user
-    @manager = session[:current_manager_account]
+    @current_user = session[:current_manager_account]
   end
 
   def quit
@@ -137,7 +132,7 @@ class ManagerController < ApplicationController
 
   def manager_modify_password
     @user_name= params[:format]
-    @manager=session[:current_manager_account]
+    @current_user=session[:current_manager_account]
   end
 
   def judge_login

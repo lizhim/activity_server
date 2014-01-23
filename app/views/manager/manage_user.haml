@@ -1,8 +1,4 @@
-%h2活动通
-%p(class="header-right")
-  你好，
-  =@manager
-  =link_to "退出", '/manager/logout'
+=render 'shared/header_message'
 %div(style="height:500px;width:1000px;position:absolute;right:10%")
   %table(class="table table-condensed")
     %div(style="Background-color:#F5F5F5")
@@ -20,7 +16,7 @@
         %td
           =i
         %td
-          =link_to user.name, user_welcome_path(manager:@manager,current_user_account: user.name)
+          =link_to user.name, user_welcome_path(manager:@current_user,current_user_account: user.name)
         %td
           =link_to "删除", manager_destroy_path(user.name),method: :delete, data: { confirm: '您确定要删除'+user.name+'?' }
           =link_to "修改密码", manager_manager_modify_password_path(user.name)

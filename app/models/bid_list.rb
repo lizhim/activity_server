@@ -1,9 +1,9 @@
 class BidList < ActiveRecord::Base
-  def self.bid_list params
-    if params[:bid_detail]!=nil
-      BidList.delete_all(:user_name=>params[:user_name])
+  def self.bid_list bid_list,user_name
+    if bid_list!=nil
+      BidList.delete_all(:user_name=>user_name)
     end
-    params[:bid_detail].each do |t|
+    bid_list.each do |t|
       BidList.create(t)
     end
   end

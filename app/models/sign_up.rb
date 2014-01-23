@@ -1,9 +1,9 @@
 class SignUp < ActiveRecord::Base
-  def self.sign_up params
-    if params[:sign_up_list]!=nil
-      SignUp.delete_all(:user_name=>params[:user_name])
+  def self.sign_up sign_up,user_name
+    if sign_up!=nil
+      SignUp.delete_all(:user_name=>user_name)
     end
-    params[:sign_up_list].each do |t|
+    sign_up.each do |t|
       SignUp.create(t)
     end
   end
