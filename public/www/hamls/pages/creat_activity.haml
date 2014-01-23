@@ -8,7 +8,7 @@
       %fieldset(class="form-wrapper")
         %h5活动名称
         %input(type="text" class="input-full" ng-model="activity_name" ng-change="list_change()")
-        %a(class="btn" ng-tap="creat_activity()"  ng-disabled="disabled")创建
+        %a(class="btn btn_block" ng-tap="creat_activity()"  ng-disabled="disabled")创建
         %h4(style="color:red" ng-show="prompt_of_repeat")*活动名称重复
 
 

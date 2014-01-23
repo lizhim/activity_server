@@ -42,21 +42,19 @@ class UserController < ApplicationController
   end
 
   def welcome
-    @manager=params[:manager]
-    @user=params[:current_user_account]
+    @manager=session[:manager]=params[:manager]
+    session[:user]=params[:current_user_account]
     @current_user_account=session[:current_user_account]
     if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
-      @pass_user= @current_user_account
-      @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user)
-      @bid=Bid.find_by(:user_name=>@current_user,:bid_status=>"bid_starting")
+      session[:pass_user]= @current_user_account
     end
     if @manager!=nil&&@current_user_account==nil
       @current_user= @manager
-      @pass_user=@user
-      @activities = Activity.paginate(page: params[:page],per_page: 10).where(:user_name=>@user)
-      @bid=Bid.find_by(:user_name=>@user,:bid_status=>"bid_starting")
+      session[:pass_user]=session[:user]
     end
+    @activities = Activity.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user])
+    @bid=Bid.find_by(:user_name => session[:pass_user], :bid_status => "bid_starting")
   end
 
   def name_exist_or_not
@@ -122,7 +120,7 @@ class UserController < ApplicationController
     password = params[:password]
     user=User.find_by(name: params[:name])
     if user!=nil
-      return password_right_or_not(user,password)
+      return password_right_or_not(user, password)
     else
       respond_to do |format|
         format.json { render :json => 'false' }
@@ -130,8 +128,8 @@ class UserController < ApplicationController
     end
   end
 
-  def password_right_or_not(user,password)
-    if user[:password]==password
+  def password_right_or_not(user, password)
+    if user[:password] == password
       respond_to do |format|
         format.json { render :json => 'true' }
       end
@@ -143,61 +141,45 @@ class UserController < ApplicationController
   end
 
   def bid_list
-    @user=params[:current_user_account]
-    @manager=params[:manager]
-    @current_user_account=session[:current_user_account]
+    @manager = session[:manager]
+    @current_user_account = session[:current_user_account]
     @current_activity=params[:activity_name]
     if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
-      @pass_user=@current_user_account
-      @bids=Bid.paginate(page:params[:page],per_page: 10).where(:user_name=>@current_user,:activity_name=>@current_activity)
     end
     if @manager!=nil&&@current_user_account==nil
       @current_user=@manager
-      @pass_user=@user
-      @bids=Bid.paginate(page:params[:page],per_page: 10).where(:user_name=>@user,:activity_name=>@current_activity)
     end
+    @bids=Bid.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user], :activity_name => @current_activity)
   end
 
   def sign_up
     @current_user_account=session[:current_user_account]
     @current_activity=params[:activity_name]
-    @manager=params[:manager]
-    @user=params[:current_user_account]
+    @manager=session[:manager]
     if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
-      @pass_user=@current_user_account
-      @sign_ups=SignUp.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity)
     end
     if @manager!=nil&&@current_user_account==nil
       @current_user=@manager
-      @pass_user=@user
-      @sign_ups=SignUp.paginate(page:params[:page],per_page:10).where(:user_name=>@user,:activity_name=>@current_activity)
     end
+    @sign_ups=SignUp.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user], :activity_name => @current_activity)
   end
 
   def bid_detail
     @current_user_account=session[:current_user_account]
     @current_activity=params[:activity_name]
-    @user=params[:current_user_account]
     @current_bid=params[:bid_name]
-    @manager=params[:manager]
+    @manager=session[:manager]
     if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
-      @pass_user=@current_user_account
-      @bid_details=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,:activity_name=>@current_activity,
-                                                                          :bid_name=>@current_bid)
-      @bid_winner=Winner.find_by(:user_name=>@current_user, :activity_name=>@current_activity, :bid_name=>@current_bid)
-      @price_counts=PriceCount.paginate(page:params[:page],per_page:10).where(:user_name=>@current_user,                                                                          :activity_name=>@current_activity,:bid_name=>@current_bid)
     end
     if @manager!=nil&&@current_user_account==nil
       @current_user=@manager
-      @pass_user=@user
-      @bid_details=BidList.paginate(page:params[:page],per_page:10).where(:user_name=>@user,:activity_name=>@current_activity,:bid_name=>@current_bid)
-      @bid_winner=Winner.find_by(:user_name=>@user, :activity_name=>@current_activity, :bid_name=>@current_bid)
-      @price_counts=PriceCount.paginate(page:params[:page],per_page:10).where(:user_name=>@user,:activity_name=>@current_activity,:bid_name=>@current_bid)
     end
-
+    @bid_details=BidList.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user], :activity_name => @current_activity, :bid_name => @current_bid)
+    @bid_winner=Winner.find_by(:user_name => session[:pass_user], :activity_name => @current_activity, :bid_name => @current_bid)
+    @price_counts=PriceCount.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user], :activity_name => @current_activity, :bid_name => @current_bid)
   end
 
   def user_params

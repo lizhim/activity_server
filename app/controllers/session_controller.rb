@@ -64,43 +64,38 @@ class SessionController < ApplicationController
     end
   end
   def show
-    @current_user=session[:user]
-    @bids=Bid.find_by(:user_name=>@current_user,:bid_status=>"bid_starting")
+    @bids=Bid.find_by(:user_name=>session[:pass_user],:bid_status=>"bid_starting")
     if @bids!=nil
-      @bid_peoples=BidList.paginate(page: params[:page],per_page: 10).where(:user_name=>@current_user, :activity_name=>@bids[:activity_name], :bid_name=>@bids[:bid_name])
+      @bid_peoples=BidList.paginate(page: params[:page],per_page: 10).where(:user_name=>session[:pass_user], :activity_name=>@bids[:activity_name], :bid_name=>@bids[:bid_name])
     end
     if @bids==nil
       @activity=session[:activity]
       @bid_name=session[:bid_name]
-      @winner=Winner.find_by(:user_name=>@current_user, :activity_name=>@activity, :bid_name=>@bid_name )
+      @winner=Winner.find_by(:user_name=>session[:pass_user], :activity_name=>@activity, :bid_name=>@bid_name )
     end
   end
   def jump
-    @manager=params[:manager]
-    @user=params[:current_user_account]
+    @manager=session[:manager]
     @current_user_account=session[:current_user_account]
+    @bids=Bid.find_by(:user_name=>session[:pass_user],:bid_status=>"bid_starting")
     if @manager==nil&&@current_user_account!=nil
-      @bids=Bid.find_by(:user_name=>@current_user_account,:bid_status=>"bid_starting")
       if @bids!=nil
-        session[:user]=session[:current_user_account]
         session[:activity]=@bids[:activity_name]
         session[:bid_name]=@bids[:bid_name]
         redirect_to session_show_path
       end
       if @bids==nil
-        redirect_to user_welcome_path(manager:@manager,current_user_account:@user)
+        redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
       end
     end
     if @manager!=nil&&@current_user_account==nil
-      @bids=Bid.find_by(:user_name=>@user,:bid_status=>"bid_starting")
       if @bids!=nil
-        session[:user]=@user
         session[:activity]=@bids[:activity_name]
         session[:bid_name]=@bids[:bid_name]
         redirect_to session_show_path
       end
       if @bids==nil
-        redirect_to user_welcome_path(manager:@manager,current_user_account:@user)
+        redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
       end
     end
   end
