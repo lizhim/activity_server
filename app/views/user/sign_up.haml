@@ -6,7 +6,7 @@
 %div(style="height:40px;width:1000px;Background-color:#F5F5F5")
   %h5(style="padding-top:10px;")
     %span
-      =link_to "首页", user_welcome_path(current_user:@current_user,current_user_account:@current_user_account)
+      =link_to "首页", user_welcome_path(manager:@manager,current_user_account:@pass_user)
     %span /报名列表
 %div(style="height:500px;width:800px;position:absolute;right:20%;top:20%")
   %table(class="table table-condensed")
@@ -14,7 +14,7 @@
       %h4
         报名列表
         %span(style="float:right")
-          =link_to "竞价列表", user_bid_list_path(activity_name:@current_activity,current_user:@current_user,current_user_account:@current_user_account)
+          =link_to "竞价列表", user_bid_list_path(activity_name:@current_activity,manager:@manager,current_user_account:@pass_user)
     %tr
       %th(class='text-center') 编号
       %th名称
