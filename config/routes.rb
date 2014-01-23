@@ -11,7 +11,7 @@ ActivityServer::Application.routes.draw do
   get 'manager/manager_modify_password'=>'manager#manager_modify_password'
   patch 'manager/judge_login'=>'manager#judge_login'
   get 'user/register'=>'user#register'
-  post 'user/information_complete'=>'user#information_complete'
+  post 'manager/information_complete'=>'manager#information_complete'
   get 'user/welcome'=>'user#welcome'
   get 'user/input_name'=>'user#input_name'
   post 'user/name_exist_or_not'=>'user#name_exist_or_not'

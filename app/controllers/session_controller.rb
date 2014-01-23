@@ -36,19 +36,16 @@ class SessionController < ApplicationController
       @bid_peoples=BidList.paginate(page: params[:page],per_page: 10).where(:user_name=>session[:pass_user], :activity_name=>@bids[:activity_name], :bid_name=>@bids[:bid_name])
     end
     if @bids==nil
-      @activity=session[:activity]
-      @bid_name=session[:bid_name]
-      @winner=Winner.find_by(:user_name=>session[:pass_user], :activity_name=>@activity, :bid_name=>@bid_name )
+      @winner=Winner.find_by(:user_name=>session[:pass_user], :activity_name=>session[:activity], :bid_name=>session[:bid_name])
     end
   end
+
   def jump
-    @manager=session[:manager]
-    @current_user_account=session[:current_user_account]
     @bids=Bid.find_by(:user_name=>session[:pass_user],:bid_status=>"bid_starting")
     if @bids!=nil
       session[:activity]=@bids[:activity_name]
       session[:bid_name]=@bids[:bid_name]
-      redirect_to session_show_path
+      redirect_to '/session/show'
     end
     if @bids==nil
       redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
