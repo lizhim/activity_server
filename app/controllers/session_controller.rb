@@ -45,25 +45,13 @@ class SessionController < ApplicationController
     @manager=session[:manager]
     @current_user_account=session[:current_user_account]
     @bids=Bid.find_by(:user_name=>session[:pass_user],:bid_status=>"bid_starting")
-    if @manager==nil&&@current_user_account!=nil
-      if @bids!=nil
-        session[:activity]=@bids[:activity_name]
-        session[:bid_name]=@bids[:bid_name]
-        redirect_to session_show_path
-      end
-      if @bids==nil
-        redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
-      end
+    if @bids!=nil
+      session[:activity]=@bids[:activity_name]
+      session[:bid_name]=@bids[:bid_name]
+      redirect_to session_show_path
     end
-    if @manager!=nil&&@current_user_account==nil
-      if @bids!=nil
-        session[:activity]=@bids[:activity_name]
-        session[:bid_name]=@bids[:bid_name]
-        redirect_to session_show_path
-      end
-      if @bids==nil
-        redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
-      end
+    if @bids==nil
+      redirect_to user_welcome_path(current_user_account:session[:pass_user],manager:session[:manager])
     end
   end
 end
