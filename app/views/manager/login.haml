@@ -16,9 +16,10 @@
         =f.text_field :password ,:id=>"input",:type=>"password",:style=>"height:30px",:placeholder=>"密码"
         %br
         %br
-        -if flash[:error]
-          %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
-            =flash[:error]
+        =render 'shared/error'
+        -#-if flash[:error]
+        -#  %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
+        -#    =flash[:error]
         %br
         =f.submit "登录"
     %div(style="text-align:right;")

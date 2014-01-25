@@ -1,4 +1,4 @@
-=render "shared/header"
+=render 'shared/header'
 %div(style="height:40px;width:1000px;Background-color:#F5F5F5")
   %h5(style="padding-top:10px;")
     %span
@@ -29,8 +29,13 @@
         =f.text_field :answer ,:type=>"text",:style=>"height:30px;width:300px",:placeholder=>"密码答案"
         %br
         %br
-        -if flash[:notice]
-          %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
-            =flash[:notice]
+        =render 'shared/error'
+        =render 'shared/flash'
+        -#-if flash[:notice]
+        -#  %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
+        -#    =flash[:notice]
+        -#-if @user.errors.any?
+        -#  %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
+        -#    =@user.errors.first[1]
         %br
         =f.submit "确认添加"

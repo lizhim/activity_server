@@ -6,7 +6,7 @@
     %div(style="text-align:right;")
       =link_to '用户登录', '/manager/login'
     %br
-    =form_for (:user), :method=>'post', :url=>'/manager/information_complete' do |f|
+    =form_for (:user), :method=>'post', :url=>'/user/judge_password_repeat' do |f|
       %div(class="input-prepend")
         =f.label :"账号",:class=>"add-on",:style=>"height:30px;width:100px"
         =f.text_field :name ,:type=>"input",:style=>"height:30px;width:300px",:placeholder=>"账号"
@@ -27,8 +27,7 @@
         =f.label :"忘记密码答案",:class=>"add-on",:style=>"height:30px;width:100px"
         =f.text_field :answer ,:type=>"text",:style=>"height:30px;width:300px",:placeholder=>"密码答案"
         %br
-        -if flash[:notice]
-          %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
-            =flash[:notice]
+        =render 'shared/error'
+        =render 'shared/flash'
         %br
         =f.submit "注册"

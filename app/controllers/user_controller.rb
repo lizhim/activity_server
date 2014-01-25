@@ -2,14 +2,56 @@ class UserController < ApplicationController
   skip_before_filter :verify_authenticity_token, :login
 
   def register
+    @user =User.new
+  end
 
+  #def information_complete
+  #  @user_name= params[:user][:name]
+  #  @user_password = params[:user][:password]
+  #  @password_confirm = params[:user][:password_confirm]
+  #  @question = params[:user][:question]
+  #  @answer = params[:user][:answer]
+  #  if @user_name!=''&&@user_password!=''&&@password_confirm!=''&&@question!=''&&@answer!=''
+  #    return judge_user_account
+  #  else
+  #    flash[:notice] = "请将注册信息填写完整"
+  #    render '/user/register'
+  #  end
+  #end
+  #
+  #def judge_user_account
+  #  user = User.find_by(name: @user_name)
+  #  if user.nil?
+  #    return judge_password_repeat
+  #  else
+  #    flash[:notice] = "该账号已注册"
+  #    render '/user/register'
+  #  end
+  #end
+
+  def judge_password_repeat
+    @user =User.new
+    @user_password = params[:user][:password]
+    @password_confirm = params[:user][:password_confirm]
+    if @user_password==@password_confirm
+      @user=User.new(user_params)
+      if @user.save
+        session[:current_user_account]=params[:user][:name]
+        redirect_to '/user/welcome'
+      else
+        render '/user/register'
+      end
+    else
+      @error='password_confirm_not_right'
+      render '/user/register'
+    end
   end
 
   def welcome
     @manager=session[:manager]=params[:manager]
     session[:user]=params[:current_user_account]
     @current_user_account=session[:current_user_account]
-    if @manager==nil&&@current_user_account!=nil||(@manager!=nil&&@current_user_account!=nil)
+    if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
       session[:pass_user]= @current_user_account
     end
@@ -29,7 +71,7 @@ class UserController < ApplicationController
       @user_question=user_name[:question]
       redirect_to user_answer_question_of_password_path(@user_question)
     else
-      flash[:error] = "账号不存在"
+      @error = "name_not_exist"
       render '/user/input_name'
     end
   end
@@ -46,36 +88,42 @@ class UserController < ApplicationController
     if @user_answer == user_answer
       redirect_to '/user/password_confirm'
     else
-      flash[:error] = "忘记密码答案错误"
+      @error = "answer_not_right"
       render '/user/answer_question_of_password'
     end
   end
 
   def password_confirm
-
+    @user=User.new()
   end
 
-  def password_empty_or_not
+  #def password_empty_or_not
+  #  password = params[:user][:password]
+  #  password_confirm = params[:user][:password_confirm]
+  #  if password!=''&&password_confirm!=''
+  #    return password_consistent(password, password_confirm)
+  #  else
+  #    flash[:error] = "密码不能为空"
+  #    render '/user/password_confirm'
+  #  end
+  #end
+
+  def password_consistent
+    @user=User.new()
     password = params[:user][:password]
     password_confirm = params[:user][:password_confirm]
-    if password!=''&&password_confirm!=''
-      return password_consistent(password, password_confirm)
-    else
-      flash[:error] = "密码不能为空"
-      render '/user/password_confirm'
-    end
-  end
-
-  def password_consistent(password, password_confirm)
     if password==password_confirm
       @current_user = session[:current_user_account]
       @user=User.find_by(name: @current_user)
       @user[:password]=password
       @user[:password_confirm]=password_confirm
-      @user.save
-      redirect_to '/user/welcome'
+      if @user.save
+        redirect_to '/user/welcome'
+      else
+        render '/user/password_confirm'
+      end
     else
-      flash[:error] = "两次密码答案不一致，请重新输入"
+      @error = "password_confirm_not_right"
       render '/user/password_confirm'
     end
   end
@@ -108,7 +156,7 @@ class UserController < ApplicationController
     @manager = session[:manager]
     @current_user_account = session[:current_user_account]
     @current_activity=params[:activity_name]
-    if @manager==nil&&@current_user_account!=nil||(@manager!=nil&&@current_user_account!=nil)
+    if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
     end
     if @manager!=nil&&@current_user_account==nil
@@ -121,7 +169,7 @@ class UserController < ApplicationController
     @current_user_account=session[:current_user_account]
     @current_activity=params[:activity_name]
     @manager=session[:manager]
-    if @manager==nil&&@current_user_account!=nil ||(@manager!=nil&&@current_user_account!=nil)
+    if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
     end
     if @manager!=nil&&@current_user_account==nil
@@ -135,7 +183,7 @@ class UserController < ApplicationController
     @current_activity=params[:activity_name]
     @current_bid=params[:bid_name]
     @manager=session[:manager]
-    if @manager==nil&&@current_user_account!=nil ||(@manager!=nil&&@current_user_account!=nil)
+    if @manager==nil&&@current_user_account!=nil
       @current_user=@current_user_account
     end
     if @manager!=nil&&@current_user_account==nil
