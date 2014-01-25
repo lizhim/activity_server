@@ -31,11 +31,5 @@
         %br
         =render 'shared/error'
         =render 'shared/flash'
-        -#-if flash[:notice]
-        -#  %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
-        -#    =flash[:notice]
-        -#-if @user.errors.any?
-        -#  %div(style='font-size:15px;Background-color:#FFC1C1;padding-top:5px;color:red')
-        -#    =@user.errors.first[1]
         %br
         =f.submit "确认添加"

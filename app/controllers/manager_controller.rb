@@ -54,33 +54,6 @@ class ManagerController < ApplicationController
     end
   end
 
-  #def information_complete
-  #  @user_name= params[:user][:name]
-  #  @user_password = params[:user][:password]
-  #  @password_confirm = params[:user][:password_confirm]
-  #  @question = params[:user][:question]
-  #  @answer = params[:user][:answer]
-  #  if @user_name!=''&&@user_password!=''&&@password_confirm!=''&&@question!=''&&@answer!=''
-  #    return judge_user_account
-  #  else
-  #    flash[:notice] = "请将注册信息填写完整"
-  #    @manager=session[:current_manager_account]
-  #    render '/manager/add_user'
-  #  end
-  #end
-  #
-  #def judge_user_account
-  #  manager_account = session[:current_manager_account]
-  #  user = User.find_by(name:@user_name)
-  #  if @user_name!=manager_account && user.nil?
-  #    return judge_password_repeat
-  #  else
-  #    flash[:notice] = "该账号已注册"
-  #    @manager=session[:current_manager_account]
-  #    render '/manager/add_user'
-  #  end
-  #end
-
   def judge_password_repeat
     @user_password = params[:user][:password]
     @password_confirm = params[:user][:password_confirm]

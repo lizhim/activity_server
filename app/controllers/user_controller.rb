@@ -5,30 +5,6 @@ class UserController < ApplicationController
     @user =User.new
   end
 
-  #def information_complete
-  #  @user_name= params[:user][:name]
-  #  @user_password = params[:user][:password]
-  #  @password_confirm = params[:user][:password_confirm]
-  #  @question = params[:user][:question]
-  #  @answer = params[:user][:answer]
-  #  if @user_name!=''&&@user_password!=''&&@password_confirm!=''&&@question!=''&&@answer!=''
-  #    return judge_user_account
-  #  else
-  #    flash[:notice] = "请将注册信息填写完整"
-  #    render '/user/register'
-  #  end
-  #end
-  #
-  #def judge_user_account
-  #  user = User.find_by(name: @user_name)
-  #  if user.nil?
-  #    return judge_password_repeat
-  #  else
-  #    flash[:notice] = "该账号已注册"
-  #    render '/user/register'
-  #  end
-  #end
-
   def judge_password_repeat
     @user =User.new
     @user_password = params[:user][:password]
@@ -96,17 +72,6 @@ class UserController < ApplicationController
   def password_confirm
     @user=User.new()
   end
-
-  #def password_empty_or_not
-  #  password = params[:user][:password]
-  #  password_confirm = params[:user][:password_confirm]
-  #  if password!=''&&password_confirm!=''
-  #    return password_consistent(password, password_confirm)
-  #  else
-  #    flash[:error] = "密码不能为空"
-  #    render '/user/password_confirm'
-  #  end
-  #end
 
   def password_consistent
     @user=User.new()
