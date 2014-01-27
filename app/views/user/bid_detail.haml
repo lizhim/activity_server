@@ -10,17 +10,7 @@
       =@current_bid
 %div(style="height:100px;width:1000px;Background-color:#F5F5F5;text-align:center")
   %h5(style="padding-top:10px;")
-  -if @bid_winner.nil?
-    %h3 活动正在进行中...
-  -if !@bid_winner.nil?&&@bid_winner["name"]==''
-    %h3 本次竞价无人胜出
-  -if !@bid_winner.nil?&&@bid_winner["name"]!=''
-    %h4
-      ='获胜者:'+@bid_winner["name"]
-      %br
-      ='出价:'+@bid_winner["price"]+'元'
-      %br
-      ='手机号:'+@bid_winner["phone"]
+  = bid_detail
 %div(class="container")
   %ul(class="nav nav-tabs" )
     %li(class="active" style="text-align:center;width:50%")
