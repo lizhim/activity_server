@@ -55,25 +55,16 @@ class ManagerController < ApplicationController
   end
 
   def judge_password_repeat
-    @user_password = params[:user][:password]
-    @password_confirm = params[:user][:password_confirm]
-    if @user_password==@password_confirm
-      @user=User.new(user_params)
-      if @user.save
-        redirect_to '/manager/manage_user'
-      else
-        render '/manager/add_user'
-      end
+    @user=User.new(user_params)
+    if @user.save
+      redirect_to '/manager/manage_user'
     else
-      @error='password_confirm_not_right'
       render '/manager/add_user'
     end
   end
 
   def destroy
-    name= params[:format]
-    @user = User.find_by(name:name)
-    @user.destroy
+    User.destroy params[:format]
     redirect_to manager_manage_user_path
   end
 
@@ -93,45 +84,16 @@ class ManagerController < ApplicationController
     end
   end
 
-  #def modify_password(user_name)
-  #  @user = User.find_by(name:user_name)
-  #  @password = params[:admin][:password]
-  #  @user_password_confirm = params[:admin][:password_confirm]
-  #  if @password != '' && @user_password_confirm !=''
-  #    return password_repeat
-  #  else
-  #    @error='password_empty'
-  #    #flash[:information]="密码不能为空"
-  #    @user_name=@user[:name]
-  #    render '/manager/manager_modify_password'
-  #  end
-  #end
-
   def password_repeat(user_name)
     @user = User.find_by(name:user_name)
     @user_name=@user[:name]
-    @password = params[:admin][:password]
-    @user_password_confirm = params[:admin][:password_confirm]
-    if @password==@user_password_confirm
-      @user[:password]= @password
-      @user[:password_confirm]=@user_password_confirm
-      if @user.save
-         redirect_to "/manager/manage_user"
-      else
-        render '/manager/manager_modify_password'
-      end
+    @user[:password]= params[:user][:password]
+    @user[:password_confirmation]=params[:user][:password_confirmation]
+    if @user.update(user_params)
+       redirect_to "/manager/manage_user"
     else
-      @error='password_confirm_not_right'
       render '/manager/manager_modify_password'
     end
-  end
-
-  private
-    def user_params
-      params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
-    end
-    def admin_params
-      params.require(:admin).permit(:password, :password_confirm)
   end
 
 end

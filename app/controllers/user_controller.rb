@@ -6,19 +6,11 @@ class UserController < ApplicationController
   end
 
   def judge_password_repeat
-    @user =User.new
-    @user_password = params[:user][:password]
-    @password_confirm = params[:user][:password_confirm]
-    if @user_password==@password_confirm
-      @user=User.new(user_params)
-      if @user.save
-        session[:current_user_account]=params[:user][:name]
-        redirect_to '/user/welcome'
-      else
-        render '/user/register'
-      end
+    @user=User.new(user_params)
+    if @user.save
+      session[:current_user_account]=params[:user][:name]
+      redirect_to '/user/welcome'
     else
-      @error='password_confirm_not_right'
       render '/user/register'
     end
   end
@@ -74,21 +66,13 @@ class UserController < ApplicationController
   end
 
   def password_consistent
-    @user=User.new()
-    password = params[:user][:password]
-    password_confirm = params[:user][:password_confirm]
-    if password==password_confirm
-      @current_user = session[:current_user_account]
-      @user=User.find_by(name: @current_user)
-      @user[:password]=password
-      @user[:password_confirm]=password_confirm
-      if @user.save
-        redirect_to '/user/welcome'
-      else
-        render '/user/password_confirm'
-      end
+    @current_user = session[:current_user_account]
+    @user=User.find_by(name: @current_user)
+    @user[:password]=params[:user][:password]
+    @user[:password_confirmation]=params[:user][:password_confirmation]
+    if @user.update(user_params)
+      redirect_to '/user/welcome'
     else
-      @error = "password_confirm_not_right"
       render '/user/password_confirm'
     end
   end
@@ -159,7 +143,4 @@ class UserController < ApplicationController
     @price_counts=PriceCount.paginate(page: params[:page], per_page: 10).where(:user_name => session[:pass_user], :activity_name => @current_activity, :bid_name => @current_bid)
   end
 
-  def user_params
-    params.require(:user).permit(:name, :password, :password_confirm, :question, :answer, :admin)
-  end
 end

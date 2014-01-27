@@ -2,6 +2,7 @@ source 'http://ruby.taobao.org'
 gem 'haml'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+gem 'rails-i18n'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
