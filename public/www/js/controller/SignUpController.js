@@ -24,10 +24,8 @@ function SignUpController($scope, $navigate,$http) {
         var bid_data = Activity.get_synchronous_data();
         $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
             .success(function () {
-                console.log("7")
             })
             .error(function () {
-                console.log("8")
             })
     }
     $scope.end = function () {
@@ -42,10 +40,8 @@ function SignUpController($scope, $navigate,$http) {
         var bid_data = Activity.get_synchronous_data();
         $http({method: "post", url: "/session/synchronous_data", data: bid_data, type: "json"})
             .success(function () {
-                console.log("9")
             })
             .error(function () {
-                console.log("10")
             })
     }
     $scope.date_refresh = function () {

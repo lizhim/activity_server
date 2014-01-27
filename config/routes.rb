@@ -21,6 +21,7 @@ ActivityServer::Application.routes.draw do
   post 'user/password_consistent'=>'user#password_consistent'
   post 'user/login'=>'user#login'
   post '/session/synchronous_data'=>'session#synchronous_data'
+  get '/session/synchronous_data'=>'session#synchronous_data'
   get '/user/bid_list'=>'user#bid_list'
   get '/user/sign_up'=>'user#sign_up'
   get '/user/bid_detail'=>'user#bid_detail'
