@@ -1,6 +1,6 @@
 =render 'shared/header_message'
 %div(style="height:500px;width:800px;position:absolute;right:20%;top:15%")
-  %table(class="table table-condensed")
+  %table(class="table table-bordered")
     %div(style="height:30px;Background-color:#F5F5F5")
       活动信息
       %button(style="float:right")
@@ -22,5 +22,5 @@
           =link_to activity.enrollment, user_sign_up_path(activity_name:activity.activity_name)
         %td(text-align="center" valign="middle")
           =link_to activity.bidder, user_bid_list_path(activity_name:activity.activity_name)
-    %div(style="position:absolute;top:80%;right:10%")
+    %div(style="position:absolute;top:90%;right:10%")
       = will_paginate @activities,:previous_label=> '上一页',:next_label=> '下一页'

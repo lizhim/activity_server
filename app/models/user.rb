@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: {message:'(两次密码输入不一致)'}
   validates :question, presence: {message:'(问题)不能为空'}
   validates :answer, presence: {message:'(答案)不能为空'}
+
   def self.destroy name
     @user = User.find_by(name:name)
     @user.destroy

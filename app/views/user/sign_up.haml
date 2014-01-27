@@ -5,7 +5,7 @@
       =link_to "首页", user_welcome_path(manager:session[:manager],current_user_account:session[:pass_user])
     %span /报名列表
 %div(style="height:500px;width:800px;position:absolute;right:20%;top:20%")
-  %table(class="table table-condensed")
+  %table(class="table table-bordered")
     %div(style="height:30px;Background-color:#F5F5F5")
       %h4
         报名列表
@@ -25,6 +25,6 @@
           =sign_up.name
         %td(text-align="center" valign="middle")
           =sign_up.phone
-    %div(style="position:absolute;top:80%;right:10%")
+    %div(style="position:absolute;top:90%;right:10%")
       = will_paginate @sign_ups,:previous_label=> '上一页',:next_label=> '下一页'
 
